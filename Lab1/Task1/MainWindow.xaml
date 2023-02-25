@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Task1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Initials" Height="450" Width="800"
+        ResizeMode="NoResize">
     <Grid>
-
+        <StackPanel Orientation="Horizontal" Height="70" Width="210"
+                    Margin="10 10 0 0">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Grid}">
+                    <Setter Property="Margin" Value="10 0 10 0"/>
+                </Style>
+            </StackPanel.Resources>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Polygon Points="0,0 10,0 10,25 30,00 45,0 15,35 45,70 30,70 10,45 10,70 0,70" 
+                 Fill="CornflowerBlue" Stroke="CornflowerBlue"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Polygon Points="0,70 0,0 10,0 30,30 50,0 60,0 60,70 50,70 50,20 30,50 10,20 10,70"
+                         Fill="Crimson"  Stroke="Crimson"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Polygon Points="0,0 30,0 30,10 10,10 10,30 30,30 30,40 10,40 10,60 30,60 30,70 0,70"
+                         Fill="Orange" Stroke="Orange"/>
+                <Path Fill="Orange" Stroke="Orange">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure StartPoint="30,0.5">
+                                <LineSegment Point="30,10"/>
+                                <ArcSegment Point="30,30" SweepDirection="Clockwise" Size="4,6"/>
+                                <LineSegment Point="30,40"/>
+                                <ArcSegment Point="30,0.5" Size="4,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+                <Path Fill="Orange" Stroke="Orange">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure StartPoint="30,30">
+                                <LineSegment Point="30,40"/>
+                                <ArcSegment Point="30,60" SweepDirection="Clockwise" Size="4,6"/>
+                                <LineSegment Point="30,70"/>
+                                <ArcSegment Point="30,30" Size="4,5" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>
