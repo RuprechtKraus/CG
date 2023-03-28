@@ -7,6 +7,8 @@ namespace Task1
 {
     internal class Window : GameWindow
     {
+        private const int _marksCount = 10;
+
         public Window( int width, int height, string title )
             : base( width, height, GraphicsMode.Default, title )
         {
@@ -22,6 +24,7 @@ namespace Task1
         protected override void OnUpdateFrame( FrameEventArgs e )
         {
             base.OnUpdateFrame( e );
+
             DrawFrame();
         }
 
@@ -38,7 +41,8 @@ namespace Task1
             GL.Clear( ClearBufferMask.ColorBufferBit );
 
             SetupProjectionMatrix( Width, Height );
-            DrawAxes( 10 );
+            DrawAxes();
+            DrawGraph();
 
             Context.SwapBuffers();
         }
@@ -60,8 +64,7 @@ namespace Task1
             }
         }
 
-
-        private void DrawAxes( int marksCount )
+        private void DrawAxes()
         {
             GL.Color3( 0.0f, 0.0f, 0.0f );
 
@@ -87,7 +90,7 @@ namespace Task1
             GL.Vertex2( 0, 1 );
             GL.End();
 
-            double step = 1.0 / marksCount;
+            double step = 1.0 / _marksCount;
 
             GL.Begin( PrimitiveType.Lines );
             for ( double i = 0; i < 1.0 - step; i += step )
@@ -105,6 +108,22 @@ namespace Task1
 
                 GL.Vertex2( 0.02, -i );
                 GL.Vertex2( -0.02, -i );
+            }
+            GL.End();
+        }
+
+        private void DrawGraph()
+        {
+            const double xMin = -2.0;
+            const double xMax = 3.0;
+
+            GL.Color3( 1.0, 0.0, 0.0 );
+
+            GL.Begin( PrimitiveType.LineStrip );
+            for ( double x = xMin; x <= xMax; x += 0.01 )
+            {
+                double y = ( 2 * x * x ) - ( 3 * x ) - 8;
+                GL.Vertex2( x / _marksCount, y / _marksCount );
             }
             GL.End();
         }
