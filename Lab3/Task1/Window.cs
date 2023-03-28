@@ -8,7 +8,7 @@ namespace Task1
     internal class Window : GameWindow
     {
         public Window( int width, int height, string title )
-            : base( width, height, GraphicsMode.Default, title, GameWindowFlags.FixedWindow )
+            : base( width, height, GraphicsMode.Default, title )
         {
         }
 
@@ -22,12 +22,7 @@ namespace Task1
         protected override void OnUpdateFrame( FrameEventArgs e )
         {
             base.OnUpdateFrame( e );
-
-            GL.Clear( ClearBufferMask.ColorBufferBit );
-
-            DrawAxes( 10 );
-
-            Context.SwapBuffers();
+            DrawFrame();
         }
 
         protected override void OnResize( EventArgs e )
@@ -35,11 +30,40 @@ namespace Task1
             base.OnResize( e );
 
             GL.Viewport( 0, 0, Width, Height );
+            DrawFrame();
         }
+
+        private void DrawFrame()
+        {
+            GL.Clear( ClearBufferMask.ColorBufferBit );
+
+            SetupProjectionMatrix( Width, Height );
+            DrawAxes( 10 );
+
+            Context.SwapBuffers();
+        }
+
+        private void SetupProjectionMatrix( int width, int height )
+        {
+            GL.MatrixMode( MatrixMode.Projection );
+            GL.LoadIdentity();
+
+            double aspectRatio = (double) width / height;
+
+            if ( aspectRatio > 1.0 )
+            {
+                GL.Ortho( -1.0 * aspectRatio, 1.0 * aspectRatio, -1.0, 1.0, -1.0, 1.0 );
+            }
+            else
+            {
+                GL.Ortho( -1.0, 1.0, -1.0 / aspectRatio, 1.0 / aspectRatio, -1.0, 1.0 );
+            }
+        }
+
 
         private void DrawAxes( int marksCount )
         {
-            GL.Color4( 0.0f, 0.0f, 0.0f, 1.0f );
+            GL.Color3( 0.0f, 0.0f, 0.0f );
 
             GL.Begin( PrimitiveType.Lines );
             // X axis
