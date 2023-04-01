@@ -12,15 +12,15 @@ namespace Task2
         private int _image;
 
         public Window( int width, int height, string title )
-            : base ( width, height, GraphicsMode.Default, title )
-        { 
+            : base( width, height, GraphicsMode.Default, title )
+        {
         }
 
         protected override void OnLoad( EventArgs e )
         {
             base.OnLoad( e );
 
-            _image = LoadPin();
+            _image = LoadPinImage();
 
             GL.ClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
         }
@@ -46,11 +46,12 @@ namespace Task2
 
             SetupProjectionMatrix( Width, Height );
             DrawImage( _image );
+            DrawPin();
 
             Context.SwapBuffers();
         }
 
-        private void SetupProjectionMatrix( int width, int height )
+        private static void SetupProjectionMatrix( int width, int height )
         {
             GL.MatrixMode( MatrixMode.Projection );
             GL.LoadIdentity();
@@ -69,7 +70,37 @@ namespace Task2
             GL.MatrixMode( MatrixMode.Modelview );
         }
 
-        private int LoadPin()
+        private static void DrawPin()
+        {
+            DrawBody();
+        }
+
+        private static void DrawBody()
+        {
+            const float step = (float) Math.PI / 180;
+
+            GL.Color3( 0.376, 0.369, 0.361 );
+
+            GL.Begin( PrimitiveType.QuadStrip );
+            for ( float angle = 0; angle < 2 * Math.PI; )
+            {
+                GL.Vertex2(
+                    0.6f * (float) Math.Cos( angle ),
+                    0.6f * (float) Math.Sin( angle ) + 0.05 );
+
+                angle += step;
+
+                GL.Vertex2(
+                    0.55f * (float) Math.Cos( angle ),
+                    0.55f * (float) Math.Sin( angle ) + 0.05 );
+
+                angle += step;
+            }
+            GL.End();
+        }
+
+        // TODO: Delete after drawing actual character
+        private int LoadPinImage()
         {
             Bitmap bitmap = new Bitmap( @"C:\Users\zombi\Downloads\Pin.jpg" );
 
@@ -103,7 +134,7 @@ namespace Task2
             GL.Enable( EnableCap.Blend );
             GL.BlendFunc( BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha );
 
-            GL.Color4(1.0, 1.0, 1.0, 0.2);
+            GL.Color4( 1.0, 1.0, 1.0, 0.2 );
 
             GL.Begin( PrimitiveType.Quads );
 
