@@ -62,6 +62,8 @@ namespace Task1
             {
                 GL.Ortho( -1.0, 1.0, -1.0 / aspectRatio, 1.0 / aspectRatio, -1.0, 1.0 );
             }
+
+            GL.MatrixMode( MatrixMode.Modelview );
         }
 
         private void DrawAxes()
