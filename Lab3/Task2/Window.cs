@@ -1,9 +1,11 @@
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Reflection;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
 
 namespace Task2
 {
@@ -23,6 +25,18 @@ namespace Task2
             _image = LoadPinImage();
 
             GL.ClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
+
+            MouseDown += Window_MouseDown;
+            WindowState = WindowState.Maximized;
+        }
+
+        private void Window_MouseDown( object sender, MouseButtonEventArgs e )
+        {
+            float centerX = (float) Width / 2;
+            float centerY = (float) Height / 2;
+            Console.WriteLine(
+                $"X: {( e.X - centerX ) / centerX} " +
+                $"Y: {-( e.Y - centerY ) / centerY}" );
         }
 
         protected override void OnUpdateFrame( FrameEventArgs e )
@@ -77,24 +91,110 @@ namespace Task2
 
         private static void DrawBody()
         {
-            const float step = (float) Math.PI / 180;
+            GL.Color3( 0.0f, 0.0f, 0.0f );
+            DrawFilledCircle( 0.0f, 0.05f, 0.55f );
 
             GL.Color3( 0.376, 0.369, 0.361 );
+            DrawCircle( 0.0f, 0.05f, 0.55f, 0.05f );
+
+            GL.Color3( 0.376, 0.369, 0.361 );
+            DrawFilledBezierCurve( new Vector2[]
+            {
+                new Vector2( -0.415f, -0.37f ),
+                new Vector2( -0.3f, -0.15f ),
+                new Vector2( 0, 0.08f ),
+                new Vector2( 0.3f, -0.15f ),
+                new Vector2( 0.415f, -0.37f )
+            } );
+
+            DrawFilledBezierCurve( new Vector2[]
+            {
+                new Vector2( -0.415f, -0.37f ),
+                new Vector2( 0, -0.7f ),
+                new Vector2( 0.415f, -0.37f )
+            } );
+
+            GL.Color3( 0.82f, 0.808f, 0.812f );
+            DrawFilledBezierCurve( new Vector2[]
+            {
+                new Vector2( -0.36f, -0.36f ),
+                new Vector2( -0.27f, -0.17f ),
+                new Vector2( 0, -0.02f ),
+                new Vector2( 0.27f, -0.17f ),
+                new Vector2( 0.36f, -0.36f )
+            } );
+
+            DrawFilledBezierCurve( new Vector2[]
+            {
+                new Vector2( -0.36f, -0.36f ),
+                new Vector2( 0, -0.65f ),
+                new Vector2( 0.36f, -0.36f )
+            } );
+
+            GL.Color3( 1.0f, 1.0f, 1.0f );
+            DrawFilledBezierCurve( new Vector2[]
+            {
+                new Vector2( -0.325f, -0.305f ),
+                new Vector2( -0.22f, -0.145f ),
+                new Vector2( 0.05f, -0.05f ),
+                new Vector2( 0.246f, -0.16f ),
+                new Vector2( 0.36f, -0.36f )
+            } );
+
+            DrawFilledBezierCurve( new Vector2[]
+            {
+                new Vector2( -0.325f, -0.305f ),
+                new Vector2( -0.023f, -0.55f ),
+                new Vector2( 0.36f, -0.36f )
+            } );
+        }
+
+        private static void DrawCircle( float centerX, float centerY, float radius, float width )
+        {
+            const float step = (float) Math.PI / 180;
 
             GL.Begin( PrimitiveType.QuadStrip );
             for ( float angle = 0; angle < 2 * Math.PI; )
             {
                 GL.Vertex2(
-                    0.6f * (float) Math.Cos( angle ),
-                    0.6f * (float) Math.Sin( angle ) + 0.05 );
+                    radius * (float) Math.Cos( angle ) + centerX,
+                    radius * (float) Math.Sin( angle ) + centerY );
 
                 angle += step;
 
                 GL.Vertex2(
-                    0.55f * (float) Math.Cos( angle ),
-                    0.55f * (float) Math.Sin( angle ) + 0.05 );
+                    ( radius + width ) * (float) Math.Cos( angle ) + centerX,
+                    ( radius + width ) * (float) Math.Sin( angle ) + centerY );
 
                 angle += step;
+            }
+            GL.End();
+        }
+
+        private static void DrawFilledCircle( float centerX, float centerY, float radius )
+        {
+            const float step = (float) Math.PI / 180;
+
+            GL.Begin( PrimitiveType.TriangleFan );
+            for ( float angle = 0; angle < 2 * Math.PI; angle += step )
+            {
+                GL.Vertex2(
+                    radius * (float) Math.Cos( angle ) + centerX,
+                    radius * (float) Math.Sin( angle ) + centerY
+                    );
+            }
+            GL.End();
+        }
+
+        private static void DrawFilledBezierCurve( Vector2[] points )
+        {
+            BezierCurve bezierCurve = new BezierCurve( points );
+
+            GL.Begin( PrimitiveType.TriangleFan );
+            for ( float i = 0; i <= 1; i += 0.01f )
+            {
+                Vector2 point = bezierCurve.CalculatePoint( i );
+                GL.Vertex2( point.X, point.Y );
             }
             GL.End();
         }
