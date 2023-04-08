@@ -26,7 +26,7 @@ namespace Task2
         {
             base.OnLoad( e );
 
-            _image = LoadPinImage();
+            //_image = LoadPinImage();
 
             GL.ClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
 
@@ -141,6 +141,81 @@ namespace Task2
 
         private static void DrawFace()
         {
+            #region Eyes
+            GL.Color3( 1.0f, 1.0f, 1.0f );
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( -0.1415929f, 0.3411996f );
+            GL.Vertex2( -0.1494592f, 0.463f );
+            GL.Vertex2( -0.1769911f, 0.4591937f );
+            GL.Vertex2( -0.2045231f, 0.4473943f );
+            GL.Vertex2( -0.2261554f, 0.4336283f );
+            GL.Vertex2( -0.2438545f, 0.4178958f );
+            GL.Vertex2( -0.2576205f, 0.3982301f );
+            GL.Vertex2( -0.2674533f, 0.3785644f );
+            GL.Vertex2( -0.273353f, 0.3588987f );
+            GL.Vertex2( -0.2772861f, 0.339233f );
+            GL.Vertex2( -0.2792527f, 0.3156342f );
+            GL.Vertex2( -0.2772861f, 0.2979351f );
+            GL.Vertex2( -0.2713864f, 0.2822025f );
+            GL.Vertex2( -0.2654867f, 0.2645034f );
+            GL.Vertex2( -0.2536873f, 0.2448378f );
+            GL.Vertex2( -0.2379548f, 0.2173058f );
+            GL.Vertex2( -0.1514258f, 0.1858407f );
+            GL.Vertex2( -0.07079646f, 0.207473f );
+            GL.Vertex2( -0.003899712f, 0.2684364f );
+            GL.Vertex2( -0.003899727f, 0.2881022f );
+            GL.Vertex2( -0.003933182f, 0.3647983f );
+            GL.Vertex2( -0.0117994f, 0.3962634f );
+            GL.Vertex2( -0.01966569f, 0.415929f );
+            GL.Vertex2( -0.03736478f, 0.4316615f );
+            GL.Vertex2( -0.05899708f, 0.4454276f );
+            GL.Vertex2( -0.08259587f, 0.4572271f );
+            GL.Vertex2( -0.1101278f, 0.4611603f );
+            GL.Vertex2( -0.1317601f, 0.463f );
+            GL.Vertex2( -0.1514258f, 0.463f );
+            GL.End();
+
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( 0.1415929f, 0.3411996f );
+            GL.Vertex2( 0.1494592f, 0.463f );
+            GL.Vertex2( 0.1769911f, 0.4591937f );
+            GL.Vertex2( 0.2045231f, 0.4473943f );
+            GL.Vertex2( 0.2261554f, 0.4336283f );
+            GL.Vertex2( 0.2438545f, 0.4178958f );
+            GL.Vertex2( 0.2576205f, 0.3982301f );
+            GL.Vertex2( 0.2674533f, 0.3785644f );
+            GL.Vertex2( 0.273353f, 0.3588987f );
+            GL.Vertex2( 0.2772861f, 0.339233f );
+            GL.Vertex2( 0.2792527f, 0.3156342f );
+            GL.Vertex2( 0.2772861f, 0.2979351f );
+            GL.Vertex2( 0.2713864f, 0.2822025f );
+            GL.Vertex2( 0.2654867f, 0.2645034f );
+            GL.Vertex2( 0.2536873f, 0.2448378f );
+            GL.Vertex2( 0.2379548f, 0.2173058f );
+            GL.Vertex2( 0.1514258f, 0.1858407f );
+            GL.Vertex2( 0.07079646f, 0.207473f );
+            GL.Vertex2( 0.003899712f, 0.2684364f );
+            GL.Vertex2( 0.003899727f, 0.2881022f );
+            GL.Vertex2( 0.003933182f, 0.3647983f );
+            GL.Vertex2( 0.0117994f, 0.3962634f );
+            GL.Vertex2( 0.01966569f, 0.415929f );
+            GL.Vertex2( 0.03736478f, 0.4316615f );
+            GL.Vertex2( 0.05899708f, 0.4454276f );
+            GL.Vertex2( 0.08259587f, 0.4572271f );
+            GL.Vertex2( 0.1101278f, 0.4611603f );
+            GL.Vertex2( 0.1317601f, 0.463f );
+            GL.Vertex2( 0.1514258f, 0.463f );
+            GL.End();
+
+            GL.Color3( 0.0f, 0.0f, 0.0f );
+            DrawFilledCircle( -0.05803048f, 0.3235005f, 0.044f, 0.056f );
+            DrawFilledCircle( 0.05803048f, 0.3235005f, 0.044f, 0.056f );
+
+            GL.Color3( 1.0f, 1.0f, 1.0f );
+            DrawFilledCircle( -0.03343166f, 0.351f, 0.013f, 0.018f );
+            DrawFilledCircle( 0.083f, 0.351f, 0.013f, 0.018f );
+            #endregion
+
             #region Outline
             GL.Color3( 0.631f, 0.153f, 0.153f );
             GL.Begin( PrimitiveType.TriangleFan );
@@ -466,14 +541,19 @@ namespace Task2
 
         private static void DrawFilledCircle( float centerX, float centerY, float radius )
         {
+            DrawFilledCircle( centerX, centerY, radius, radius );
+        }
+
+        private static void DrawFilledCircle( float centerX, float centerY, float width, float height )
+        {
             const float step = (float) Math.PI / 180;
 
             GL.Begin( PrimitiveType.TriangleFan );
             for ( float angle = 0; angle < 2 * Math.PI; angle += step )
             {
                 GL.Vertex2(
-                    radius * (float) Math.Cos( angle ) + centerX,
-                    radius * (float) Math.Sin( angle ) + centerY );
+                    width * (float) Math.Cos( angle ) + centerX,
+                    height * (float) Math.Sin( angle ) + centerY );
             }
             GL.End();
         }
