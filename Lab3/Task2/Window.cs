@@ -98,55 +98,43 @@ namespace Task2
             DrawCircle( 0.0f, 0.05f, 0.55f, 0.05f );
 
             GL.Color3( 0.376, 0.369, 0.361 );
-            DrawFilledBezierCurve( new Vector2[]
-            {
+            DrawFilledBezierCurve(
                 new Vector2( -0.415f, -0.37f ),
                 new Vector2( -0.3f, -0.15f ),
                 new Vector2( 0, 0.08f ),
                 new Vector2( 0.3f, -0.15f ),
-                new Vector2( 0.415f, -0.37f )
-            } );
+                new Vector2( 0.415f, -0.37f ) );
 
-            DrawFilledBezierCurve( new Vector2[]
-            {
+            DrawFilledBezierCurve(
                 new Vector2( -0.415f, -0.37f ),
                 new Vector2( 0, -0.7f ),
-                new Vector2( 0.415f, -0.37f )
-            } );
+                new Vector2( 0.415f, -0.37f ) );
 
             GL.Color3( 0.82f, 0.808f, 0.812f );
-            DrawFilledBezierCurve( new Vector2[]
-            {
+            DrawFilledBezierCurve(
                 new Vector2( -0.36f, -0.36f ),
                 new Vector2( -0.27f, -0.17f ),
                 new Vector2( 0, -0.02f ),
                 new Vector2( 0.27f, -0.17f ),
-                new Vector2( 0.36f, -0.36f )
-            } );
+                new Vector2( 0.36f, -0.36f ) );
 
-            DrawFilledBezierCurve( new Vector2[]
-            {
+            DrawFilledBezierCurve(
                 new Vector2( -0.36f, -0.36f ),
                 new Vector2( 0, -0.65f ),
-                new Vector2( 0.36f, -0.36f )
-            } );
+                new Vector2( 0.36f, -0.36f ) );
 
             GL.Color3( 1.0f, 1.0f, 1.0f );
-            DrawFilledBezierCurve( new Vector2[]
-            {
+            DrawFilledBezierCurve(
                 new Vector2( -0.325f, -0.305f ),
                 new Vector2( -0.22f, -0.145f ),
                 new Vector2( 0.05f, -0.05f ),
                 new Vector2( 0.246f, -0.16f ),
-                new Vector2( 0.36f, -0.36f )
-            } );
+                new Vector2( 0.36f, -0.36f ) );
 
-            DrawFilledBezierCurve( new Vector2[]
-            {
+            DrawFilledBezierCurve(
                 new Vector2( -0.325f, -0.305f ),
                 new Vector2( -0.023f, -0.55f ),
-                new Vector2( 0.36f, -0.36f )
-            } );
+                new Vector2( 0.36f, -0.36f ) );
         }
 
         private static void DrawCircle( float centerX, float centerY, float radius, float width )
@@ -186,7 +174,7 @@ namespace Task2
             GL.End();
         }
 
-        private static void DrawFilledBezierCurve( Vector2[] points )
+        private static void DrawFilledBezierCurve( params Vector2[] points )
         {
             BezierCurve bezierCurve = new BezierCurve( points );
 
