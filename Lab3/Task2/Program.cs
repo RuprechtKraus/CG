@@ -1,3 +1,5 @@
+using OpenTK.Graphics.OpenGL;
+
 namespace Task2
 {
     internal static class Program
