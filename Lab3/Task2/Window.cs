@@ -57,6 +57,8 @@ namespace Task2
             SetupProjectionMatrix( Width, Height );
             DrawImage( _image );
             DrawPin();
+            DrawControlPoints();
+            ConnectControlPoints();
 
             Context.SwapBuffers();
         }
@@ -86,9 +88,6 @@ namespace Task2
             DrawFace();
             DrawHat();
             DrawGlasses();
-
-            DrawControlPoints();
-            ConnectControlPoints();
         }
 
         private static void DrawBody()
@@ -720,7 +719,7 @@ namespace Task2
             GL.Vertex2( 0.2261554f, 0.453294f );
             GL.Vertex2( 0.2045231f, 0.46706f );
             GL.Vertex2( 0.1769911f, 0.4788594f );
-            GL.Vertex2( 0.259587f, 0.5240905f );
+            GL.Vertex2( 0.23f, 0.58f );
             GL.Vertex2( 0.3264503f, 0.5732546f );
             GL.End();
             #endregion
