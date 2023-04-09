@@ -4,8 +4,6 @@ using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
@@ -26,7 +24,7 @@ namespace Task2
         {
             base.OnLoad( e );
 
-            //_image = LoadPinImage();
+            _image = LoadPinImage();
 
             GL.ClearColor( 1.0f, 1.0f, 1.0f, 1.0f );
 
@@ -84,8 +82,10 @@ namespace Task2
 
         private static void DrawPin()
         {
-            DrawBody();
-            DrawFace();
+            //DrawBody();
+            //DrawFace();
+            //DrawHat();
+            DrawGlasses();
 
             DrawControlPoints();
             ConnectControlPoints();
@@ -517,6 +517,448 @@ namespace Task2
             #endregion
         }
 
+        private static void DrawHat()
+        {
+            GL.Color3( 0.478f, 0.333f, 0.141f );
+
+            #region Left part outline
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( -0.4542773f, 0.5221239f );
+            GL.Vertex2( -0.3972468f, 0.5358899f );
+            GL.Vertex2( -0.4070796f, 0.5476893f );
+            GL.Vertex2( -0.4129794f, 0.5634218f );
+            GL.Vertex2( -0.4110128f, 0.5771878f );
+            GL.Vertex2( -0.4070796f, 0.5909538f );
+            GL.Vertex2( -0.3972468f, 0.6027532f );
+            GL.Vertex2( -0.3854474f, 0.612586f );
+            GL.Vertex2( -0.373648f, 0.6224189f );
+            GL.Vertex2( -0.3657817f, 0.6381514f );
+            GL.Vertex2( -0.3697149f, 0.653884f );
+            GL.Vertex2( -0.3834808f, 0.6656834f );
+            GL.Vertex2( -0.4031465f, 0.6656834f );
+            GL.Vertex2( -0.4247788f, 0.6597838f );
+            GL.Vertex2( -0.4405113f, 0.6538838f );
+            GL.Vertex2( -0.4542774f, 0.6460177f );
+            GL.Vertex2( -0.4660767f, 0.6342183f );
+            GL.Vertex2( -0.4798427f, 0.626352f );
+            GL.Vertex2( -0.4896755f, 0.6145526f );
+            GL.Vertex2( -0.5014749f, 0.59882f );
+            GL.Vertex2( -0.5113078f, 0.5830875f );
+            GL.Vertex2( -0.519174f, 0.5634218f );
+            GL.Vertex2( -0.5231069f, 0.545723f );
+            GL.Vertex2( -0.5270403f, 0.5319567f );
+            GL.Vertex2( -0.5290068f, 0.5240905f );
+            GL.Vertex2( -0.5270403f, 0.5103245f );
+            GL.Vertex2( -0.5231072f, 0.4906588f );
+            GL.Vertex2( -0.5172074f, 0.4729597f );
+            GL.Vertex2( -0.5113078f, 0.4572271f );
+            GL.Vertex2( -0.505408f, 0.4473943f );
+            GL.Vertex2( -0.4955752f, 0.4336283f );
+            GL.Vertex2( -0.4916421f, 0.4237955f );
+            GL.Vertex2( -0.4798427f, 0.4119961f );
+            GL.Vertex2( -0.4700098f, 0.4021632f );
+            GL.Vertex2( -0.460177f, 0.3962635f );
+            GL.End();
+
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( -0.3795477f, 0.4611603f );
+            GL.Vertex2( -0.3225172f, 0.5712881f );
+            GL.Vertex2( -0.3362832f, 0.5594887f );
+            GL.Vertex2( -0.3500492f, 0.5476893f );
+            GL.Vertex2( -0.359882f, 0.539823f );
+            GL.Vertex2( -0.3716814f, 0.5339233f );
+            GL.Vertex2( -0.3834808f, 0.5339233f );
+            GL.Vertex2( -0.4011799f, 0.5378565f );
+            GL.Vertex2( -0.4641101f, 0.5516224f );
+            GL.Vertex2( -0.4641101f, 0.4001967f );
+            GL.Vertex2( -0.4542773f, 0.3923304f );
+            GL.Vertex2( -0.4424779f, 0.3883972f );
+            GL.Vertex2( -0.4326451f, 0.3844641f );
+            GL.Vertex2( -0.4228122f, 0.380531f );
+            GL.Vertex2( -0.4149459f, 0.380531f );
+            GL.Vertex2( -0.3992134f, 0.380531f );
+            GL.Vertex2( -0.3854474f, 0.3785644f );
+            GL.Vertex2( -0.3697149f, 0.3785644f );
+            GL.Vertex2( -0.3559489f, 0.3824975f );
+            GL.Vertex2( -0.3402163f, 0.3883972f );
+            GL.Vertex2( -0.3225172f, 0.3962635f );
+            GL.Vertex2( -0.3067847f, 0.4060964f );
+            GL.Vertex2( -0.2910521f, 0.4178958f );
+            GL.Vertex2( -0.2792527f, 0.4277286f );
+            GL.Vertex2( -0.2654867f, 0.4434611f );
+            GL.Vertex2( -0.2517208f, 0.4611603f );
+            GL.Vertex2( -0.3185841f, 0.567355f );
+            GL.Vertex2( -0.3225172f, 0.5712881f );
+            GL.End();
+            #endregion
+
+            #region Middle part outline
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( 0f, 0.6027532f );
+            GL.Vertex2( -0.2949852f, 0.6460177f );
+            GL.Vertex2( -0.2910521f, 0.6597837f );
+            GL.Vertex2( -0.287119f, 0.6715831f );
+            GL.Vertex2( -0.2772861f, 0.685349f );
+            GL.Vertex2( -0.2713864f, 0.6971485f );
+            GL.Vertex2( -0.2635202f, 0.7089479f );
+            GL.Vertex2( -0.2536873f, 0.7207473f );
+            GL.Vertex2( -0.245821f, 0.7305802f );
+            GL.Vertex2( -0.2379548f, 0.740413f );
+            GL.Vertex2( -0.2281219f, 0.7522124f );
+            GL.Vertex2( -0.2182891f, 0.7600787f );
+            GL.Vertex2( -0.2084562f, 0.7718781f );
+            GL.Vertex2( -0.1986234f, 0.7797443f );
+            GL.Vertex2( -0.1887906f, 0.7915438f );
+            GL.Vertex2( -0.1789577f, 0.79941f );
+            GL.Vertex2( -0.1710915f, 0.8053097f );
+            GL.Vertex2( -0.159292f, 0.8092428f );
+            GL.Vertex2( -0.1474926f, 0.8171092f );
+            GL.Vertex2( -0.1356932f, 0.8230088f );
+            GL.Vertex2( -0.1258604f, 0.8249754f );
+            GL.Vertex2( -0.1101278f, 0.8289086f );
+            GL.Vertex2( -0.09636185f, 0.8348082f );
+            GL.Vertex2( -0.0806293f, 0.8367748f );
+            GL.Vertex2( -0.06489675f, 0.840708f );
+            GL.Vertex2( -0.05506391f, 0.8426746f );
+            GL.Vertex2( -0.04129793f, 0.8426746f );
+            GL.Vertex2( -0.02556539f, 0.8446411f );
+            GL.Vertex2( -0.01179941f, 0.8446411f );
+            GL.Vertex2( 0.007866274f, 0.8446411f );
+            GL.Vertex2( 0.02163225f, 0.8446411f );
+            GL.Vertex2( 0.03343166f, 0.840708f );
+            GL.Vertex2( 0.04719764f, 0.840708f );
+            GL.Vertex2( 0.06293019f, 0.8387414f );
+            GL.Vertex2( 0.07669616f, 0.8367748f );
+            GL.Vertex2( 0.08849557f, 0.8348082f );
+            GL.Vertex2( 0.1061947f, 0.826942f );
+            GL.Vertex2( 0.1199607f, 0.8230088f );
+            GL.Vertex2( 0.1337266f, 0.8171092f );
+            GL.Vertex2( 0.1435595f, 0.8151426f );
+            GL.Vertex2( 0.1573255f, 0.8072763f );
+            GL.Vertex2( 0.1710915f, 0.8013766f );
+            GL.Vertex2( 0.1828908f, 0.7915438f );
+            GL.Vertex2( 0.1927237f, 0.7856441f );
+            GL.Vertex2( 0.20059f, 0.7797443f );
+            GL.Vertex2( 0.214356f, 0.7659784f );
+            GL.Vertex2( 0.2261554f, 0.7541789f );
+            GL.Vertex2( 0.2379548f, 0.740413f );
+            GL.Vertex2( 0.2497542f, 0.726647f );
+            GL.Vertex2( 0.2556539f, 0.7168142f );
+            GL.Vertex2( 0.2635202f, 0.7050148f );
+            GL.Vertex2( 0.2694198f, 0.6912488f );
+            GL.Vertex2( 0.2772861f, 0.6755162f );
+            GL.Vertex2( 0.2812193f, 0.6676499f );
+            GL.Vertex2( 0.287119f, 0.653884f );
+            GL.Vertex2( 0.2949852f, 0.6381514f );
+            GL.Vertex2( 0.2989184f, 0.6184857f );
+
+            GL.End();
+            #endregion
+
+            #region Right part outline
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( 0.4542774f, 0.3883973f );
+            GL.Vertex2( 0.3264503f, 0.5732546f );
+            GL.Vertex2( 0.3421829f, 0.5535892f );
+            GL.Vertex2( 0.3500492f, 0.5457227f );
+            GL.Vertex2( 0.359882f, 0.5358899f );
+            GL.Vertex2( 0.3677483f, 0.5319567f );
+            GL.Vertex2( 0.3775811f, 0.526057f );
+            GL.Vertex2( 0.3874139f, 0.5221239f );
+            GL.Vertex2( 0.3992134f, 0.5142576f );
+            GL.Vertex2( 0.4110128f, 0.5103245f );
+            GL.Vertex2( 0.4208456f, 0.5063913f );
+            GL.Vertex2( 0.4306785f, 0.5024582f );
+            GL.Vertex2( 0.4405113f, 0.4985251f );
+            GL.Vertex2( 0.4503441f, 0.494592f );
+            GL.Vertex2( 0.4582104f, 0.4926254f );
+            GL.Vertex2( 0.4641101f, 0.4926254f );
+            GL.Vertex2( 0.4719764f, 0.4926254f );
+            GL.Vertex2( 0.4818093f, 0.4926254f );
+            GL.Vertex2( 0.4955752f, 0.4926254f );
+            GL.Vertex2( 0.505408f, 0.494592f );
+            GL.Vertex2( 0.519174f, 0.4985251f );
+            GL.Vertex2( 0.5309734f, 0.5044248f );
+            GL.Vertex2( 0.5447394f, 0.5142576f );
+            GL.Vertex2( 0.5545722f, 0.5221239f );
+            GL.Vertex2( 0.5663717f, 0.5299902f );
+            GL.Vertex2( 0.5742379f, 0.5378565f );
+            GL.Vertex2( 0.5860373f, 0.5417896f );
+            GL.Vertex2( 0.5939037f, 0.5437561f );
+            GL.Vertex2( 0.6037365f, 0.539823f );
+            GL.Vertex2( 0.6116028f, 0.5319567f );
+            GL.Vertex2( 0.6175025f, 0.5240905f );
+            GL.Vertex2( 0.6253688f, 0.5162242f );
+            GL.Vertex2( 0.6234022f, 0.5024582f );
+            GL.Vertex2( 0.619469f, 0.4906588f );
+            GL.Vertex2( 0.6135693f, 0.4788594f );
+            GL.Vertex2( 0.6076697f, 0.46706f );
+            GL.Vertex2( 0.5978368f, 0.453294f );
+            GL.Vertex2( 0.5899705f, 0.4414946f );
+            GL.Vertex2( 0.5801376f, 0.4257621f );
+            GL.Vertex2( 0.5683382f, 0.4159292f );
+            GL.Vertex2( 0.5545722f, 0.4041298f );
+            GL.Vertex2( 0.5388397f, 0.3942969f );
+            GL.Vertex2( 0.5250737f, 0.3844641f );
+            GL.Vertex2( 0.5093412f, 0.3765979f );
+            GL.Vertex2( 0.4896755f, 0.366765f );
+            GL.Vertex2( 0.4719764f, 0.3588987f );
+            GL.Vertex2( 0.4523107f, 0.352999f );
+            GL.Vertex2( 0.4346116f, 0.3510324f );
+            GL.Vertex2( 0.4188791f, 0.3490659f );
+            GL.Vertex2( 0.4031465f, 0.3490659f );
+            GL.Vertex2( 0.3874139f, 0.3490659f );
+            GL.Vertex2( 0.3677483f, 0.3510324f );
+            GL.Vertex2( 0.346116f, 0.3588987f );
+            GL.Vertex2( 0.3244838f, 0.3687316f );
+            GL.Vertex2( 0.3067847f, 0.3824975f );
+            GL.Vertex2( 0.2949852f, 0.3942969f );
+            GL.Vertex2( 0.2851524f, 0.4080629f );
+            GL.Vertex2( 0.273353f, 0.4178958f );
+            GL.Vertex2( 0.259587f, 0.4316618f );
+            GL.Vertex2( 0.2438545f, 0.4434611f );
+            GL.Vertex2( 0.2261554f, 0.453294f );
+            GL.Vertex2( 0.2045231f, 0.46706f );
+            GL.Vertex2( 0.1769911f, 0.4788594f );
+            GL.Vertex2( 0.259587f, 0.5240905f );
+            GL.Vertex2( 0.3264503f, 0.5732546f );
+            GL.End();
+            #endregion
+
+            GL.Color3( 0.592f, 0.412f, 0.133f );
+
+            #region Left part inner
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( -0.48f, 0.53f );
+            GL.Vertex2( -0.3756145f, 0.5162239f );
+            GL.Vertex2( -0.3952802f, 0.5201573f );
+            GL.Vertex2( -0.4110128f, 0.5280236f );
+            GL.Vertex2( -0.4228122f, 0.5417896f );
+            GL.Vertex2( -0.4247788f, 0.553589f );
+            GL.Vertex2( -0.4267453f, 0.5732546f );
+            GL.Vertex2( -0.4247788f, 0.5870206f );
+            GL.Vertex2( -0.4188791f, 0.6007866f );
+            GL.Vertex2( -0.4110128f, 0.6106195f );
+            GL.Vertex2( -0.4011799f, 0.6184857f );
+            GL.Vertex2( -0.3952802f, 0.6243855f );
+            GL.Vertex2( -0.3834808f, 0.6342183f );
+            GL.Vertex2( -0.3815143f, 0.6460177f );
+            GL.Vertex2( -0.3874139f, 0.6519174f );
+            GL.Vertex2( -0.4011799f, 0.653884f );
+            GL.Vertex2( -0.4169125f, 0.6519174f );
+            GL.Vertex2( -0.4287119f, 0.6440511f );
+            GL.Vertex2( -0.4444444f, 0.6361849f );
+            GL.Vertex2( -0.4582104f, 0.6243855f );
+            GL.Vertex2( -0.4700098f, 0.612586f );
+            GL.Vertex2( -0.4798427f, 0.59882f );
+            GL.Vertex2( -0.4896755f, 0.5850541f );
+            GL.Vertex2( -0.4995083f, 0.5693215f );
+            GL.Vertex2( -0.505408f, 0.5516224f );
+            GL.Vertex2( -0.5093412f, 0.539823f );
+            GL.Vertex2( -0.5113078f, 0.526057f );
+            GL.Vertex2( -0.5093412f, 0.5083579f );
+            GL.Vertex2( -0.505408f, 0.4906588f );
+            GL.Vertex2( -0.5014749f, 0.4749263f );
+            GL.Vertex2( -0.4975418f, 0.4631268f );
+            GL.Vertex2( -0.4896755f, 0.4513274f );
+            GL.Vertex2( -0.4778756f, 0.4355948f );
+            GL.Vertex2( -0.4700098f, 0.4237955f );
+            GL.Vertex2( -0.4641101f, 0.4198623f );
+            GL.Vertex2( -0.4542773f, 0.4119961f );
+            GL.Vertex2( -0.4503441f, 0.4080629f );
+            GL.Vertex2( -0.4405113f, 0.4041298f );
+            GL.Vertex2( -0.4326451f, 0.3982301f );
+            GL.Vertex2( -0.4188791f, 0.3962635f );
+            GL.Vertex2( -0.4031465f, 0.3923304f );
+            GL.Vertex2( -0.3874139f, 0.3923304f );
+            GL.Vertex2( -0.3716814f, 0.3962635f );
+            GL.Vertex2( -0.3539823f, 0.4021632f );
+            GL.Vertex2( -0.3421829f, 0.4060964f );
+            GL.Vertex2( -0.3756145f, 0.5162239f );
+            GL.End();
+
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( -0.3657817f, 0.4591937f );
+            GL.Vertex2( -0.4326451f, 0.3982301f );
+            GL.Vertex2( -0.4247788f, 0.3962635f );
+            GL.Vertex2( -0.4169125f, 0.3942969f );
+            GL.Vertex2( -0.4051131f, 0.3923304f );
+            GL.Vertex2( -0.3952802f, 0.3903638f );
+            GL.Vertex2( -0.3854474f, 0.3903638f );
+            GL.Vertex2( -0.3775811f, 0.3923304f );
+            GL.Vertex2( -0.3657817f, 0.3942969f );
+            GL.Vertex2( -0.3539823f, 0.3982301f );
+            GL.Vertex2( -0.3402163f, 0.4041298f );
+            GL.Vertex2( -0.33235f, 0.4080629f );
+            GL.Vertex2( -0.3225172f, 0.4139626f );
+            GL.Vertex2( -0.3126844f, 0.4178958f );
+            GL.Vertex2( -0.3048181f, 0.4257621f );
+            GL.Vertex2( -0.2949852f, 0.4336283f );
+            GL.Vertex2( -0.287119f, 0.439528f );
+            GL.Vertex2( -0.2772861f, 0.4513274f );
+            GL.Vertex2( -0.2556539f, 0.4749263f );
+            GL.Vertex2( -0.31f, 0.57f );
+            GL.Vertex2( -0.3264503f, 0.5496559f );
+            GL.Vertex2( -0.3362832f, 0.539823f );
+            GL.Vertex2( -0.346116f, 0.5299902f );
+            GL.Vertex2( -0.359882f, 0.5221239f );
+            GL.Vertex2( -0.373648f, 0.5181907f );
+            GL.Vertex2( -0.3893805f, 0.5181907f );
+            GL.Vertex2( -0.4051131f, 0.5240905f );
+            GL.Vertex2( -0.4188791f, 0.5378565f );
+            GL.Vertex2( -0.4700098f, 0.4827925f );
+            GL.Vertex2( -0.4326451f, 0.3982301f );
+            GL.End();
+            #endregion
+
+            #region Middle part inner
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( 0f, 0.5850541f );
+            GL.Vertex2( -0.2713864f, 0.653884f );
+            GL.Vertex2( -0.2635202f, 0.6676499f );
+            GL.Vertex2( -0.2576205f, 0.6814159f );
+            GL.Vertex2( -0.2497542f, 0.6912488f );
+            GL.Vertex2( -0.2418879f, 0.7030482f );
+            GL.Vertex2( -0.2359882f, 0.7109144f );
+            GL.Vertex2( -0.2281219f, 0.7227139f );
+            GL.Vertex2( -0.2202557f, 0.7345133f );
+            GL.Vertex2( -0.2104228f, 0.7463127f );
+            GL.Vertex2( -0.2025565f, 0.7561455f );
+            GL.Vertex2( -0.1946903f, 0.7640118f );
+            GL.Vertex2( -0.186824f, 0.7738447f );
+            GL.Vertex2( -0.1789577f, 0.7777778f );
+            GL.Vertex2( -0.1710915f, 0.7836775f );
+            GL.Vertex2( -0.1651917f, 0.7876106f );
+            GL.Vertex2( -0.1533923f, 0.7954769f );
+            GL.Vertex2( -0.1415929f, 0.79941f );
+            GL.Vertex2( -0.1297935f, 0.8033432f );
+            GL.Vertex2( -0.1179941f, 0.8092428f );
+            GL.Vertex2( -0.1061947f, 0.8112094f );
+            GL.Vertex2( -0.09832841f, 0.813176f );
+            GL.Vertex2( -0.09046214f, 0.8151426f );
+            GL.Vertex2( -0.0806293f, 0.8171092f );
+            GL.Vertex2( -0.06882989f, 0.8190757f );
+            GL.Vertex2( -0.06096362f, 0.8210423f );
+            GL.Vertex2( -0.05309734f, 0.8230088f );
+            GL.Vertex2( -0.0432645f, 0.8230088f );
+            GL.Vertex2( -0.03343166f, 0.8230088f );
+            GL.Vertex2( -0.02753196f, 0.8249754f );
+            GL.Vertex2( -0.01573255f, 0.8249754f );
+            GL.Vertex2( 0f, 0.8249754f );
+            GL.Vertex2( 0.01179941f, 0.8249754f );
+            GL.Vertex2( 0.02359882f, 0.8230088f );
+            GL.Vertex2( 0.0373648f, 0.8210423f );
+            GL.Vertex2( 0.05309734f, 0.8190757f );
+            GL.Vertex2( 0.06686332f, 0.8171092f );
+            GL.Vertex2( 0.0806293f, 0.813176f );
+            GL.Vertex2( 0.09046214f, 0.8092428f );
+            GL.Vertex2( 0.1042281f, 0.8033432f );
+            GL.Vertex2( 0.1219272f, 0.7974436f );
+            GL.Vertex2( 0.1317601f, 0.7954769f );
+            GL.Vertex2( 0.1415929f, 0.7895772f );
+            GL.Vertex2( 0.1533923f, 0.7856441f );
+            GL.Vertex2( 0.1651917f, 0.7797443f );
+            GL.Vertex2( 0.1750246f, 0.7718781f );
+            GL.Vertex2( 0.1848574f, 0.7640118f );
+            GL.Vertex2( 0.1927237f, 0.7581121f );
+            GL.Vertex2( 0.1946903f, 0.7561455f );
+            GL.Vertex2( 0.20059f, 0.7522124f );
+            GL.Vertex2( 0.2104228f, 0.7443461f );
+            GL.Vertex2( 0.2163225f, 0.7384464f );
+            GL.Vertex2( 0.2241888f, 0.7286136f );
+            GL.Vertex2( 0.2320551f, 0.7207473f );
+            GL.Vertex2( 0.2359882f, 0.712881f );
+            GL.Vertex2( 0.2399213f, 0.7030482f );
+            GL.Vertex2( 0.245821f, 0.6951819f );
+            GL.Vertex2( 0.2517208f, 0.6833825f );
+            GL.Vertex2( 0.2576205f, 0.6715831f );
+            GL.Vertex2( 0.2674533f, 0.640118f );
+            GL.End();
+            #endregion
+
+            #region Right part inner
+            GL.Begin( PrimitiveType.TriangleFan );
+            GL.Vertex2( 0.4483775f, 0.4021632f );
+            GL.Vertex2( 0.3205507f, 0.5575221f );
+            GL.Vertex2( 0.3264503f, 0.5516224f );
+            GL.Vertex2( 0.3343166f, 0.5417896f );
+            GL.Vertex2( 0.3421829f, 0.5339233f );
+            GL.Vertex2( 0.3500492f, 0.526057f );
+            GL.Vertex2( 0.359882f, 0.5201573f );
+            GL.Vertex2( 0.3677483f, 0.5162242f );
+            GL.Vertex2( 0.3775811f, 0.5103245f );
+            GL.Vertex2( 0.3854474f, 0.5044248f );
+            GL.Vertex2( 0.3952802f, 0.5004916f );
+            GL.Vertex2( 0.4031465f, 0.4965585f );
+            GL.Vertex2( 0.4149459f, 0.4926254f );
+            GL.Vertex2( 0.4228122f, 0.4886922f );
+            GL.Vertex2( 0.4306785f, 0.4867257f );
+            GL.Vertex2( 0.4405113f, 0.4827925f );
+            GL.Vertex2( 0.4483776f, 0.4827925f );
+            GL.Vertex2( 0.4562438f, 0.4788594f );
+            GL.Vertex2( 0.4621436f, 0.4788594f );
+            GL.Vertex2( 0.4700098f, 0.4788594f );
+            GL.Vertex2( 0.4778761f, 0.4768928f );
+            GL.Vertex2( 0.4936087f, 0.4768928f );
+            GL.Vertex2( 0.5073747f, 0.4768928f );
+            GL.Vertex2( 0.5231073f, 0.480826f );
+            GL.Vertex2( 0.5309734f, 0.4867257f );
+            GL.Vertex2( 0.5408063f, 0.4926254f );
+            GL.Vertex2( 0.5486726f, 0.4985251f );
+            GL.Vertex2( 0.5545722f, 0.5044248f );
+            GL.Vertex2( 0.5624385f, 0.5103245f );
+            GL.Vertex2( 0.5703048f, 0.5162242f );
+            GL.Vertex2( 0.5762045f, 0.5201573f );
+            GL.Vertex2( 0.5821042f, 0.5240905f );
+            GL.Vertex2( 0.5880039f, 0.526057f );
+            GL.Vertex2( 0.5939037f, 0.5240905f );
+            GL.Vertex2( 0.5978368f, 0.5221239f );
+            GL.Vertex2( 0.6017699f, 0.5162242f );
+            GL.Vertex2( 0.6076697f, 0.5083579f );
+            GL.Vertex2( 0.6076697f, 0.4985251f );
+            GL.Vertex2( 0.6057031f, 0.4886922f );
+            GL.Vertex2( 0.5998034f, 0.4768928f );
+            GL.Vertex2( 0.5958703f, 0.4709931f );
+            GL.Vertex2( 0.5899705f, 0.4611603f );
+            GL.Vertex2( 0.5840707f, 0.4513274f );
+            GL.Vertex2( 0.5742379f, 0.4414946f );
+            GL.Vertex2( 0.5663717f, 0.4316618f );
+            GL.Vertex2( 0.5585054f, 0.4237955f );
+            GL.Vertex2( 0.5486726f, 0.4159292f );
+            GL.Vertex2( 0.5408064f, 0.4100295f );
+            GL.Vertex2( 0.5290068f, 0.4021632f );
+            GL.Vertex2( 0.5211406f, 0.3982301f );
+            GL.Vertex2( 0.5132743f, 0.3942969f );
+            GL.Vertex2( 0.505408f, 0.3883972f );
+            GL.Vertex2( 0.4955752f, 0.3844641f );
+            GL.Vertex2( 0.4857424f, 0.3785644f );
+            GL.Vertex2( 0.4719764f, 0.3746313f );
+            GL.Vertex2( 0.460177f, 0.3706981f );
+            GL.Vertex2( 0.446411f, 0.366765f );
+            GL.Vertex2( 0.4326451f, 0.3628319f );
+            GL.Vertex2( 0.4169125f, 0.3628319f );
+            GL.Vertex2( 0.4051131f, 0.3628319f );
+            GL.Vertex2( 0.3815143f, 0.3628319f );
+            GL.Vertex2( 0.3638151f, 0.366765f );
+            GL.Vertex2( 0.3520157f, 0.3726647f );
+            GL.Vertex2( 0.3402163f, 0.3785644f );
+            GL.Vertex2( 0.3225172f, 0.3903638f );
+            GL.Vertex2( 0.3048181f, 0.4041298f );
+            GL.Vertex2( 0.2930187f, 0.4178958f );
+            GL.Vertex2( 0.2772861f, 0.4336283f );
+            GL.Vertex2( 0.2556539f, 0.4493609f );
+            GL.Vertex2( 0.2300885f, 0.4631268f );
+            GL.Vertex2( 0.2084562f, 0.494592f );
+            GL.Vertex2( 0.3205507f, 0.5575221f );
+            GL.End();
+            #endregion
+        }
+
+        private static void DrawGlasses()
+        {
+
+        }
+
         private static void DrawCircle( float centerX, float centerY, float radius, float width )
         {
             const float step = (float) Math.PI / 180;
@@ -708,7 +1150,7 @@ namespace Task2
             GL.Enable( EnableCap.Blend );
             GL.BlendFunc( BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha );
 
-            GL.Color4( 1.0, 1.0, 1.0, 0.4 );
+            GL.Color4( 1.0, 1.0, 1.0, 1 );
 
             GL.Begin( PrimitiveType.Quads );
 
