@@ -5,11 +5,11 @@ using OpenTK.Graphics.OpenGL;
 namespace GLLib
 {
     /// <summary>
-    /// Provides functionality for simple drawing
+    /// Provides functionality for simple drawing in GLConext
     /// </summary>
     public static class Drawing
     {
-        private static void DrawCircle( float centerX, float centerY, float radius, float width )
+        public static void DrawCircle( float centerX, float centerY, float radius, float lineWidth )
         {
             const float step = (float) Math.PI / 180;
 
@@ -23,20 +23,20 @@ namespace GLLib
                 angle += step;
 
                 GL.Vertex2(
-                    ( radius + width ) * (float) Math.Cos( angle ) + centerX,
-                    ( radius + width ) * (float) Math.Sin( angle ) + centerY );
+                    ( radius + lineWidth ) * (float) Math.Cos( angle ) + centerX,
+                    ( radius + lineWidth ) * (float) Math.Sin( angle ) + centerY );
 
                 angle += step;
             }
             GL.End();
         }
 
-        private static void DrawFilledCircle( float centerX, float centerY, float radius )
+        public static void DrawFilledCircle( float centerX, float centerY, float radius )
         {
-            DrawFilledCircle( centerX, centerY, radius, radius );
+            DrawFilledEllipse( centerX, centerY, radius, radius );
         }
 
-        private static void DrawFilledCircle( float centerX, float centerY, float width, float height )
+        public static void DrawFilledEllipse( float centerX, float centerY, float width, float height )
         {
             const float step = (float) Math.PI / 180;
 
@@ -50,7 +50,7 @@ namespace GLLib
             GL.End();
         }
 
-        private static void DrawFilledBezierCurve( params Vector2[] points )
+        public static void DrawFilledBezierCurve( params Vector2[] points )
         {
             BezierCurve bezierCurve = new BezierCurve( points );
 

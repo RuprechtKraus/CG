@@ -1,4 +1,6 @@
 using OpenTK.Graphics.OpenGL;
+using GLLib;
+using OpenTK;
 
 namespace Task2
 {
@@ -298,46 +300,46 @@ namespace Task2
         private static void DrawBody()
         {
             GL.Color3( 0.0f, 0.0f, 0.0f );
-            DrawFilledCircle( 0.0f, 0.05f, 0.55f );
+            Drawing.DrawFilledCircle( 0.0f, 0.05f, 0.55f );
 
             GL.Color3( 0.376, 0.369, 0.361 );
-            DrawCircle( 0.0f, 0.05f, 0.55f, 0.05f );
+            Drawing.DrawCircle( 0.0f, 0.05f, 0.55f, 0.05f );
 
             GL.Color3( 0.376, 0.369, 0.361 );
-            DrawFilledBezierCurve(
+            Drawing.DrawFilledBezierCurve(
                 new Vector2( -0.415f, -0.37f ),
                 new Vector2( -0.3f, -0.15f ),
                 new Vector2( 0, 0.08f ),
                 new Vector2( 0.3f, -0.15f ),
                 new Vector2( 0.415f, -0.37f ) );
 
-            DrawFilledBezierCurve(
+            Drawing.DrawFilledBezierCurve(
                 new Vector2( -0.415f, -0.37f ),
                 new Vector2( 0, -0.7f ),
                 new Vector2( 0.415f, -0.37f ) );
 
             GL.Color3( 0.82f, 0.808f, 0.812f );
-            DrawFilledBezierCurve(
+            Drawing.DrawFilledBezierCurve(
                 new Vector2( -0.36f, -0.36f ),
                 new Vector2( -0.27f, -0.17f ),
                 new Vector2( 0, -0.02f ),
                 new Vector2( 0.27f, -0.17f ),
                 new Vector2( 0.36f, -0.36f ) );
 
-            DrawFilledBezierCurve(
+            Drawing.DrawFilledBezierCurve(
                 new Vector2( -0.36f, -0.36f ),
                 new Vector2( 0, -0.65f ),
                 new Vector2( 0.36f, -0.36f ) );
 
             GL.Color3( 1.0f, 1.0f, 1.0f );
-            DrawFilledBezierCurve(
+            Drawing.DrawFilledBezierCurve(
                 new Vector2( -0.325f, -0.305f ),
                 new Vector2( -0.22f, -0.145f ),
                 new Vector2( 0.05f, -0.05f ),
                 new Vector2( 0.246f, -0.16f ),
                 new Vector2( 0.36f, -0.36f ) );
 
-            DrawFilledBezierCurve(
+            Drawing.DrawFilledBezierCurve(
                 new Vector2( -0.325f, -0.305f ),
                 new Vector2( -0.023f, -0.55f ),
                 new Vector2( 0.36f, -0.36f ) );
@@ -645,12 +647,12 @@ namespace Task2
             GL.End();
 
             GL.Color3( 0.0f, 0.0f, 0.0f );
-            DrawFilledCircle( -0.05803048f, 0.3235005f, 0.044f, 0.056f );
-            DrawFilledCircle( 0.05803048f, 0.3235005f, 0.044f, 0.056f );
+            Drawing.DrawFilledEllipse( -0.05803048f, 0.3235005f, 0.044f, 0.056f );
+            Drawing.DrawFilledEllipse( 0.05803048f, 0.3235005f, 0.044f, 0.056f );
 
             GL.Color3( 1.0f, 1.0f, 1.0f );
-            DrawFilledCircle( -0.03343166f, 0.351f, 0.013f, 0.018f );
-            DrawFilledCircle( 0.083f, 0.351f, 0.013f, 0.018f );
+            Drawing.DrawFilledEllipse( -0.03343166f, 0.351f, 0.013f, 0.018f );
+            Drawing.DrawFilledEllipse( 0.083f, 0.351f, 0.013f, 0.018f );
             #endregion
 
             #region Outline
