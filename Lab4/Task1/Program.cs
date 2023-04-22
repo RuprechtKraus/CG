@@ -4,7 +4,7 @@ namespace Task1
     {
         static void Main( string[] args )
         {
-            using ( var window = new Window( 800, 600, "My window" ) )
+            using ( var window = new Window( 1200, 800, "My window" ) )
             {
                 window.Run();
             }

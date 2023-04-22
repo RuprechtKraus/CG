@@ -70,6 +70,17 @@ namespace Task1.Objects
             _sideColors[ (int) side, 3 ] = a;
         }
 
+        public bool CheckCollision( Vector3 obj )
+        {
+            if ( obj.X >= -1 * Size - 0.02f && obj.Y >= -1 * Size - 0.02f && obj.Z <= 1 * Size + 0.02f && 
+                 obj.X <= 1 * Size + 0.02f && obj.Y <= 1 * Size + 0.02f && obj.Z >= -1 * Size - 0.02f )
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void Draw()
         {
             GL.PushMatrix();

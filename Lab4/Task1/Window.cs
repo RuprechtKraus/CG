@@ -22,8 +22,8 @@ namespace Task1
 
         private Cube _cube = new Cube( 0.5f );
 
-        private Vector3 position = new Vector3( 0.0f, 0.0f, 5.0f );
-        private Vector3 front = new Vector3( 0.0f, 0.0f, -5.0f );
+        private Vector3 position = new Vector3( 0.0f, 0.0f, 3.0f );
+        private Vector3 front = new Vector3( 0.0f, 0.0f, -3.0f );
         private Vector3 up = new Vector3( 0.0f, 1.0f, 0.0f );
 
         public Window( int width, int height, string title )
@@ -64,29 +64,34 @@ namespace Task1
             switch ( e.Key )
             {
                 case Key.W:
-                    position += front * 0.01f;
+                    TryToMoveCamera( position + front * 0.01f );
                     break;
                 case Key.S:
-                    position -= front * 0.01f;
+                    TryToMoveCamera( position - front * 0.01f );
                     break;
                 case Key.A:
-                    position -= Vector3.Normalize( Vector3.Cross( front, up ) ) * 0.02f;
+                    TryToMoveCamera( position - Vector3.Normalize( Vector3.Cross( front, up ) ) * 0.02f );
                     break;
                 case Key.D:
-                    position += Vector3.Normalize( Vector3.Cross( front, up ) ) * 0.02f;
+                    TryToMoveCamera( position + Vector3.Normalize( Vector3.Cross( front, up ) ) * 0.02f );
                     break;
                 case Key.Space:
-                    position += up * 0.01f;
+                    TryToMoveCamera( position + up * 0.01f );
                     break;
                 case Key.ShiftLeft:
-                    position -= up * 0.01f;
+                    TryToMoveCamera( position - up * 0.01f );
                     break;
                 default:
                     return;
             }
+        }
 
-            //Matrix4 view = Matrix4.LookAt( position, position + front, up );
-            //GL.LoadMatrix( ref view );
+        private void TryToMoveCamera( Vector3 point )
+        {
+            if ( !_cube.CheckCollision( point ) )
+            {
+                position = point;
+            }
         }
 
         private float _yaw = -90;
@@ -143,13 +148,13 @@ namespace Task1
             }
 
             GL.MatrixMode( MatrixMode.Projection );
-            //var fov = Matrix4.CreatePerspectiveFieldOfView( FieldOfView, AspectRatio, ZNear, ZFar );
-            //GL.LoadMatrix( ref fov );
-            GL.LoadIdentity();
-            GL.Frustum(
-                -frustumWidth * 0.5f, frustumWidth * 0.5f,
-                -frustumHeight * 0.5f, frustumHeight * 0.5f,
-                FrustumSize * 0.5f, FrustumSize * 20 );
+            var fov = Matrix4.CreatePerspectiveFieldOfView( FieldOfView, AspectRatio, 0.01f, ZFar );
+            GL.LoadMatrix( ref fov );
+            //GL.LoadIdentity();
+            //GL.Frustum(
+            //    -frustumWidth * 0.5f, frustumWidth * 0.5f,
+            //    -frustumHeight * 0.5f, frustumHeight * 0.5f,
+            //    FrustumSize * 0.5f, FrustumSize * 20 );
             GL.MatrixMode( MatrixMode.Modelview );
 
             DrawFrame();
