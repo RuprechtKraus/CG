@@ -4,8 +4,6 @@ using OpenTK.Input;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using Task1.Objects;
-using System.Threading;
-using System.Runtime.InteropServices;
 
 namespace Task1
 {
@@ -22,8 +20,8 @@ namespace Task1
 
         private Cube _cube = new Cube( 0.5f );
 
-        private Vector3 position = new Vector3( 0.0f, 0.0f, 3.0f );
-        private Vector3 front = new Vector3( 0.0f, 0.0f, -3.0f );
+        private Vector3 position = new Vector3( 0.0f, 0.0f, 1.0f );
+        private Vector3 front = new Vector3( 0.0f, 0.0f, -1.0f );
         private Vector3 up = new Vector3( 0.0f, 1.0f, 0.0f );
 
         public Window( int width, int height, string title )
@@ -130,6 +128,7 @@ namespace Task1
         protected override void OnUpdateFrame( FrameEventArgs e )
         {
             base.OnUpdateFrame( e );
+            Console.WriteLine( position.Z );
             DrawFrame();
         }
 
