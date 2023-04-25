@@ -29,10 +29,19 @@ namespace Maze
         {
             base.OnLoad( e );
             _camera = new Camera( Vector3.UnitZ, Width / Height );
-            GL.Enable( EnableCap.CullFace );
-            GL.CullFace( CullFaceMode.Back );
-            GL.FrontFace( FrontFaceDirection.Cw );
-            GL.Enable( EnableCap.DepthTest );
+            MouseMove += Window_MouseMove;
+        }
+
+        private const float CameraSpeed = 0.02f;
+        private const float Sensitivity = 0.2f;
+
+        private void Window_MouseMove( object sender, MouseMoveEventArgs e )
+        {
+            if ( e.Mouse.LeftButton == ButtonState.Pressed )
+            {
+                _camera.Yaw += e.XDelta * Sensitivity;
+                _camera.Pitch -= e.YDelta * Sensitivity;
+            }
         }
 
         protected override void OnUpdateFrame( FrameEventArgs e )
@@ -42,40 +51,35 @@ namespace Maze
             if ( !Focused )
             {
                 return;
-            }
-
-            const float cameraSpeed = 0.02f;
-            const float sensitivity = 0.2f;
+            }            
 
             var input = Keyboard.GetState( 1 );
 
             if ( input.IsKeyDown( Key.W ) )
             {
-                _camera.Position += _camera.Front * cameraSpeed; // Forward
+                _camera.Position += _camera.Front * CameraSpeed; // Forward
             }
             if ( input.IsKeyDown( Key.S ) )
             {
-                _camera.Position -= _camera.Front * cameraSpeed; // Backwards
+                _camera.Position -= _camera.Front * CameraSpeed; // Backwards
             }
             if ( input.IsKeyDown( Key.A ) )
             {
-                _camera.Position -= _camera.Right * cameraSpeed; // Left
+                _camera.Position -= _camera.Right * CameraSpeed; // Left
             }
             if ( input.IsKeyDown( Key.D ) )
             {
-                _camera.Position += _camera.Right * cameraSpeed; // Right
+                _camera.Position += _camera.Right * CameraSpeed; // Right
             }
             if ( input.IsKeyDown( Key.Space ) )
             {
-                _camera.Position += _camera.Up * cameraSpeed; // Up
+                _camera.Position += _camera.Up * CameraSpeed; // Up
             }
             if ( input.IsKeyDown( Key.LShift ) )
             {
-                _camera.Position -= _camera.Up * cameraSpeed; // Down
+                _camera.Position -= _camera.Up * CameraSpeed; // Down
             }
 
-            Console.WriteLine( _camera.Position.Z );
-            
             DrawFrame();
         }
 
