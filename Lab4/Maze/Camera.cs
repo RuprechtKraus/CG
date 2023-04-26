@@ -14,9 +14,9 @@ namespace Maze
         private Vector3 _up = Vector3.UnitY;
         private Vector3 _right = Vector3.UnitX;
 
+        private readonly float _fov = MathHelper.PiOver3;
         private float _pitch = 0;
         private float _yaw = -MathHelper.PiOver2;
-        private float _fov = MathHelper.PiOver2;
 
         public Vector3 Position;
         public Vector3 Right => _right;

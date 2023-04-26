@@ -6,18 +6,20 @@ namespace Maze
 {
     internal class Wall
     {
-        private Vector3 _v1;
-        private Vector3 _v2;
-        private Vector3 _v3;
-        private Vector3 _v4;
+        private float _x1;
+        private float _z1;
+        private float _x2;
+        private float _z2;
+        private float _height;
         private Color4 _color;
 
-        public Wall( Vector3 v1, Vector3 v2, Vector3 v3, Vector3 v4, Color4 color )
+        public Wall( float x1, float z1, float x2, float z2, float height, Color4 color )
         {
-            _v1 = v1;
-            _v2 = v2;
-            _v3 = v3;
-            _v4 = v4;
+            _x1 = x1;
+            _z1 = z1;
+            _x2 = x2;
+            _z2 = z2;
+            _height = height;
             _color = color;
         }
 
@@ -27,10 +29,41 @@ namespace Maze
 
             GL.Color4( _color );
             GL.Begin( PrimitiveType.Quads );
-            GL.Vertex3( _v1 );
-            GL.Vertex3( _v2 );
-            GL.Vertex3( _v3 );
-            GL.Vertex3( _v4 );
+            // Bottom
+            GL.Vertex3( _x2, 0, _z1 );
+            GL.Vertex3( _x2, 0, _z2 );
+            GL.Vertex3( _x1, 0, _z2 );
+            GL.Vertex3( _x1, 0, _z1 );
+
+            // Left
+            GL.Vertex3( _x1, 0, _z1 );
+            GL.Vertex3( _x1, 0, _z2 );
+            GL.Vertex3( _x1, _height, _z2 );
+            GL.Vertex3( _x1, _height, _z1 );
+
+            // Back
+            GL.Vertex3( _x2, 0, _z2 );
+            GL.Vertex3( _x2, _height, _z2 );
+            GL.Vertex3( _x1, _height, _z2 );
+            GL.Vertex3( _x1, 0, _z2 );
+
+            // Right
+            GL.Vertex3( _x2, 0, _z1 );
+            GL.Vertex3( _x2, _height, _z1 );
+            GL.Vertex3( _x2, _height, _z2 );
+            GL.Vertex3( _x2, 0, _z2 );
+
+            // Front
+            GL.Vertex3( _x1, 0, _z1 );
+            GL.Vertex3( _x1, _height, _z1 );
+            GL.Vertex3( _x2, _height, _z1 );
+            GL.Vertex3( _x2, 0, _z1 );
+
+            // Top
+            GL.Vertex3( _x1, _height, _z1 );
+            GL.Vertex3( _x1, _height, _z2 );
+            GL.Vertex3( _x2, _height, _z2 );
+            GL.Vertex3( _x2, _height, _z1 );
             GL.End();
 
             GL.PopMatrix();
