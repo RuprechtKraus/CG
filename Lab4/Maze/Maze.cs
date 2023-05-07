@@ -30,8 +30,16 @@ namespace Maze
         };
 
         private readonly Wall[] _walls = new Wall[ MazeRows * MazeCols ];
+        private readonly Wall _floor;
+        private readonly Wall _ceil;
 
         public Maze()
+        {
+            _floor = new Wall( -MazeRows, -MazeCols, 0, 0, -0.5f, 0, Color4.Turquoise );
+            InitWalls();
+        }
+
+        private void InitWalls()
         {
             int k = -1;
 
@@ -51,14 +59,17 @@ namespace Maze
                         i - MazeCols,
                         j - MazeRows + 1,
                         i - MazeCols + 1,
+                        0,
                         1,
-                        Color4.DarkGray );
+                        Color4.White );
                 }
             }
         }
 
         public virtual void Draw()
         {
+            _floor.Draw();
+
             for ( int i = 0; i < MazeRows * MazeCols; i++ )
             {
                 if ( _walls[ i ] == null )
@@ -70,11 +81,16 @@ namespace Maze
             }
         }
 
-        public bool CheckCollision( Vector3 obj )
+        public bool CheckCollision( Vector3 obj, float objWith, float objHeight )
         {
+            if ( _floor.CheckCollision( obj, objWith, objHeight ) )
+            {
+                return true;
+            }
+
             for ( int i = 0; i < MazeRows * MazeCols; i++ )
             {
-                if ( _walls[ i ]?.CheckCollision( obj ) == true )
+                if ( _walls[ i ]?.CheckCollision( obj, objWith, objHeight ) == true )
                 {
                     return true;
                 }

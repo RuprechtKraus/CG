@@ -11,6 +11,9 @@ namespace Maze
         private const float CameraSpeed = 0.02f;
         private const float Sensitivity = 0.15f;
 
+        private const float CameraWidth = 0.02f;
+        private const float CameraHeight = 0.5f;
+
         private readonly Maze _maze;
 
         private Camera _camera;
@@ -139,7 +142,7 @@ namespace Maze
 
         private void TryToMoveCamera( Vector3 point )
         {
-            if ( !_maze.CheckCollision( point ) )
+            if ( !_maze.CheckCollision( point, CameraWidth, CameraHeight ) )
             {
                 _camera.Position = point;
             }
