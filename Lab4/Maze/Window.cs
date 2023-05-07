@@ -9,7 +9,7 @@ namespace Maze
     internal class Window : GameWindow
     {
         private const float CameraSpeed = 0.02f;
-        private const float Sensitivity = 0.2f;
+        private const float Sensitivity = 0.15f;
 
         private readonly Maze _maze = new Maze();
 
@@ -32,7 +32,7 @@ namespace Maze
             GL.FrontFace( FrontFaceDirection.Cw );
             GL.Enable( EnableCap.DepthTest );
 
-            _camera = new Camera( new Vector3( 0, 0, 1 ), Width / Height );
+            _camera = new Camera( new Vector3( 0, 0.5f, 1 ), Width / Height );
             MouseMove += Window_MouseMove;
         }
 
@@ -91,12 +91,14 @@ namespace Maze
 
             if ( input.IsKeyDown( Key.W ) )
             {
-                _camera.Position += _camera.Front * CameraSpeed;
+                _camera.Position.X += _camera.Front.X * CameraSpeed;
+                _camera.Position.Z += _camera.Front.Z * CameraSpeed;
             }
 
             if ( input.IsKeyDown( Key.S ) )
             {
-                _camera.Position -= _camera.Front * CameraSpeed;
+                _camera.Position.X -= _camera.Front.X * CameraSpeed;
+                _camera.Position.Z -= _camera.Front.Z * CameraSpeed;
             }
 
             if ( input.IsKeyDown( Key.A ) )
@@ -111,12 +113,12 @@ namespace Maze
 
             if ( input.IsKeyDown( Key.Space ) )
             {
-                _camera.Position += _camera.Up * CameraSpeed;
+                _camera.Position.Y += 1 * CameraSpeed;
             }
 
             if ( input.IsKeyDown( Key.LShift ) )
             {
-                _camera.Position -= _camera.Up * CameraSpeed;
+                _camera.Position.Y -= 1 * CameraSpeed;
             }
         }
     }
