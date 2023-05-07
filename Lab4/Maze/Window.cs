@@ -10,17 +10,16 @@ namespace Maze
     {
         private const float CameraSpeed = 0.02f;
         private const float Sensitivity = 0.2f;
-        private readonly Wall _wall;
+
+        private readonly Maze _maze = new Maze();
 
         private Camera _camera;
 
         public float AspectRatio => (float) Width / Height;
 
-
         public Window( int width, int height, string title )
             : base( width, height, GraphicsMode.Default, title )
         {
-            _wall = new Wall( -0.2f, 0.2f, 0.2f, -0.2f, 1.0f, new Color4( 1.0f, 0.0f, 0.0f, 1.0f ) );
         }
 
         protected override void OnLoad( EventArgs e )
@@ -33,7 +32,7 @@ namespace Maze
             GL.FrontFace( FrontFaceDirection.Cw );
             GL.Enable( EnableCap.DepthTest );
 
-            _camera = new Camera( Vector3.UnitZ, Width / Height );
+            _camera = new Camera( new Vector3( 0, 0, 1 ), Width / Height );
             MouseMove += Window_MouseMove;
         }
 
@@ -72,7 +71,7 @@ namespace Maze
             Matrix4 view = _camera.GetViewMatrix();
             GL.LoadMatrix( ref view );
 
-            _wall.Draw();
+            _maze.Draw();
 
             SwapBuffers();
         }
