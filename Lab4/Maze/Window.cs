@@ -36,7 +36,7 @@ namespace Maze
             GL.FrontFace( FrontFaceDirection.Ccw );
             GL.Enable( EnableCap.DepthTest );
 
-            _camera = new Camera( new Vector3( 0, 0.5f, 1 ), Width / Height );
+            _camera = new Camera( new Vector3( -7.5f, 0.5f, 1 ), Width / Height );
             MouseMove += Window_MouseMove;
         }
 
