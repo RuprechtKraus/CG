@@ -91,34 +91,56 @@ namespace Maze
 
             if ( input.IsKeyDown( Key.W ) )
             {
-                _camera.Position.X += _camera.Front.X * CameraSpeed;
-                _camera.Position.Z += _camera.Front.Z * CameraSpeed;
+                Vector3 newPosition = new Vector3(
+                    _camera.Position.X + _camera.Front.X * CameraSpeed,
+                    _camera.Position.Y,
+                    _camera.Position.Z + _camera.Front.Z * CameraSpeed );
+                TryToMoveCamera( newPosition );
             }
 
             if ( input.IsKeyDown( Key.S ) )
             {
-                _camera.Position.X -= _camera.Front.X * CameraSpeed;
-                _camera.Position.Z -= _camera.Front.Z * CameraSpeed;
+                Vector3 newPosition = new Vector3(
+                    _camera.Position.X - _camera.Front.X * CameraSpeed,
+                    _camera.Position.Y,
+                    _camera.Position.Z - _camera.Front.Z * CameraSpeed );
+                TryToMoveCamera( newPosition );
             }
 
             if ( input.IsKeyDown( Key.A ) )
             {
-                _camera.Position -= _camera.Right * CameraSpeed;
+                TryToMoveCamera( _camera.Position - _camera.Right * CameraSpeed );
             }
 
             if ( input.IsKeyDown( Key.D ) )
             {
-                _camera.Position += _camera.Right * CameraSpeed;
+                TryToMoveCamera( _camera.Position + _camera.Right * CameraSpeed );
             }
 
             if ( input.IsKeyDown( Key.Space ) )
             {
-                _camera.Position.Y += 1 * CameraSpeed;
+                Vector3 newPosition = new Vector3(
+                    _camera.Position.X,
+                    _camera.Position.Y + 1 * CameraSpeed,
+                    _camera.Position.Z );
+                TryToMoveCamera( newPosition );
             }
 
             if ( input.IsKeyDown( Key.LShift ) )
             {
-                _camera.Position.Y -= 1 * CameraSpeed;
+                Vector3 newPosition = new Vector3(
+                    _camera.Position.X,
+                    _camera.Position.Y - 1 * CameraSpeed,
+                    _camera.Position.Z );
+                TryToMoveCamera( newPosition );
+            }
+        }
+
+        private void TryToMoveCamera( Vector3 point )
+        {
+            if ( !_maze.CheckCollision( point ) )
+            {
+                _camera.Position = point;
             }
         }
     }

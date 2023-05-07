@@ -1,14 +1,14 @@
-using System.Collections.Generic;
+using OpenTK;
 using OpenTK.Graphics;
 
 namespace Maze
 {
     internal class Maze
     {
-        private const int MAZE_WIDTH = 17;
-        private const int MAZE_HEIGHT = 17;
+        private const int MazeRows = 17;
+        private const int MazeCols = 17;
 
-        private readonly char[,] _pattern = new char[ MAZE_WIDTH, MAZE_HEIGHT ]
+        private readonly char[,] _pattern = new char[ MazeRows, MazeCols ]
         {
             { '*','*','*','*','*','*','*',' ','*','*','*','*','*','*','*','*','*' },
             { '*',' ',' ',' ',' ',' ','*',' ',' ',' ',' ',' ',' ',' ','*',' ','*' },
@@ -29,15 +29,15 @@ namespace Maze
             { '*','*','*','*','*','*','*','*','*',' ','*','*','*','*','*','*','*' },
         };
 
-        private readonly Wall[] _walls = new Wall[ MAZE_WIDTH * MAZE_HEIGHT ];
+        private readonly Wall[] _walls = new Wall[ MazeRows * MazeCols ];
 
         public Maze()
         {
             int k = -1;
 
-            for ( int i = 0; i < MAZE_WIDTH; i++ )
+            for ( int i = 0; i < MazeRows; i++ )
             {
-                for ( int j = 0; j < MAZE_HEIGHT; j++ )
+                for ( int j = 0; j < MazeCols; j++ )
                 {
                     k++;
 
@@ -47,10 +47,10 @@ namespace Maze
                     }
 
                     _walls[ k ] = new Wall(
-                        j - MAZE_WIDTH,
-                        i - MAZE_HEIGHT,
-                        j - MAZE_WIDTH + 1,
-                        i - MAZE_HEIGHT + 1,
+                        j - MazeRows,
+                        i - MazeCols,
+                        j - MazeRows + 1,
+                        i - MazeCols + 1,
                         1,
                         Color4.Crimson );
                 }
@@ -59,7 +59,7 @@ namespace Maze
 
         public virtual void Draw()
         {
-            for ( int i = 0; i < MAZE_WIDTH * MAZE_HEIGHT; i++ )
+            for ( int i = 0; i < MazeRows * MazeCols; i++ )
             {
                 if ( _walls[ i ] == null )
                 {
@@ -68,6 +68,19 @@ namespace Maze
 
                 _walls[ i ].Draw();
             }
+        }
+
+        public bool CheckCollision( Vector3 obj )
+        {
+            for ( int i = 0; i < MazeRows * MazeCols; i++ )
+            {
+                if ( _walls[ i ]?.CheckCollision( obj ) == true )
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

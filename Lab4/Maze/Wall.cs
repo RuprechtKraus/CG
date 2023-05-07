@@ -6,6 +6,7 @@ namespace Maze
 {
     internal class Wall
     {
+        private const float MinDistanceToWall = 0.02f;
         private float _x1;
         private float _z1;
         private float _x2;
@@ -15,6 +16,16 @@ namespace Maze
 
         public Wall( float x1, float z1, float x2, float z2, float height, Color4 color )
         {
+            if ( x1 > x2 )
+            {
+                (x1, x2) = (x2, x1);
+            }
+
+            if ( z1 > z2 )
+            {
+                (z1, z2) = (z2, z1);
+            }
+
             _x1 = x1;
             _z1 = z1;
             _x2 = x2;
@@ -67,6 +78,17 @@ namespace Maze
             GL.End();
 
             GL.PopMatrix();
+        }
+
+        public bool CheckCollision( Vector3 obj )
+        {
+            if ( obj.X >= _x1 - MinDistanceToWall && obj.Y >= 0 - MinDistanceToWall && obj.Z <= _z2 + MinDistanceToWall &&
+                 obj.X <= _x2 + MinDistanceToWall && obj.Y <= _height + MinDistanceToWall && obj.Z >= _z1 - MinDistanceToWall )
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
