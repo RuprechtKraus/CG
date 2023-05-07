@@ -52,7 +52,7 @@ namespace Maze
                         j - MazeRows + 1,
                         i - MazeCols + 1,
                         1,
-                        Color4.Crimson );
+                        Color4.DarkGray );
                 }
             }
         }

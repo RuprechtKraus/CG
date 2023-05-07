@@ -11,7 +11,7 @@ namespace Maze
         private const float CameraSpeed = 0.02f;
         private const float Sensitivity = 0.15f;
 
-        private readonly Maze _maze = new Maze();
+        private readonly Maze _maze;
 
         private Camera _camera;
 
@@ -20,6 +20,7 @@ namespace Maze
         public Window( int width, int height, string title )
             : base( width, height, GraphicsMode.Default, title )
         {
+            _maze = new Maze();
         }
 
         protected override void OnLoad( EventArgs e )
@@ -29,7 +30,7 @@ namespace Maze
             GL.ClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
             GL.Enable( EnableCap.CullFace );
             GL.CullFace( CullFaceMode.Back );
-            GL.FrontFace( FrontFaceDirection.Cw );
+            GL.FrontFace( FrontFaceDirection.Ccw );
             GL.Enable( EnableCap.DepthTest );
 
             _camera = new Camera( new Vector3( 0, 0.5f, 1 ), Width / Height );
