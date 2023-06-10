@@ -2,24 +2,30 @@
 
 namespace Toolkit;
 
-public class Shader : IDisposable
+public class Shader
 {
-    private readonly int _shader;
+    private int _shader;
     
     public Shader( ShaderType type )
     {
         _shader = GL.CreateShader( type );
     }
 
-    public void SetSource( string path )
+    public void LoadCode( string path )
     {
-        string source = File.ReadAllText( path );
-        GL.ShaderSource( _shader, source );
+        string code = File.ReadAllText( path );
+        GL.ShaderSource( _shader, code );
     }
 
     public void Compile()
     {
         GL.CompileShader( _shader );
+    }
+
+    public void Delete()
+    {
+        GL.DeleteShader( _shader );
+        _shader = 0;
     }
 
     public int GetParameter( ShaderParameter parameter )
@@ -32,34 +38,11 @@ public class Shader : IDisposable
 
     public string GetInfoLog() => GL.GetShaderInfoLog( _shader );
 
-    #region Disposing
-    
-    private bool _disposed = false;
-
-    public void Dispose()
+    private void AssertShader()
     {
-        Dispose( true );
-        GC.SuppressFinalize( this );
-    }
-    
-    protected virtual void Dispose( bool disposing )
-    {
-        if ( _disposed )
+        if ( _shader == 0 )
         {
-            return;   
-        }
-        
-        GL.DeleteShader( _shader );
-        _disposed = true;
-    }
-
-    ~Shader()
-    {
-        if ( _disposed == false )
-        {
-            Console.WriteLine( "GPU Resource leak! Did you forget to call Dispose()?" );
+            throw new ApplicationException( "Shader was deleted!" );
         }
     }
-    
-    #endregion
 }

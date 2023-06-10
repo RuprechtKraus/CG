@@ -2,11 +2,11 @@
 
 namespace Toolkit;
 
-public class Program : IDisposable
+public class ShaderProgram : IDisposable
 {
     private readonly int _program;
 
-    public Program()
+    public ShaderProgram()
     {
         _program = GL.CreateProgram();
     }
@@ -31,6 +31,11 @@ public class Program : IDisposable
         GL.ValidateProgram( _program );
     }
     
+    public void Use()
+    {
+        GL.UseProgram( _program );
+    }
+    
     public int GetParameter( GetProgramParameterName parameter )
     {
         GL.GetProgram( _program, parameter, out int param );
@@ -47,7 +52,7 @@ public class Program : IDisposable
 
     #region Disposing
 
-    private bool _disposed = false;
+    private bool _disposed;
 
     public void Dispose()
     {
@@ -62,11 +67,11 @@ public class Program : IDisposable
             return;
         }
 
-        GL.DeleteShader( _program );
+        GL.DeleteProgram( _program );
         _disposed = true;
     }
 
-    ~Program()
+    ~ShaderProgram()
     {
         if ( _disposed == false )
         {
