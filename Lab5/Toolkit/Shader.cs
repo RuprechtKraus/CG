@@ -6,9 +6,9 @@ public class Shader : IDisposable
 {
     private readonly int _shader;
     
-    public Shader( int shader )
+    public Shader( ShaderType type )
     {
-        _shader = shader;
+        _shader = GL.CreateShader( type );
     }
 
     public void SetSource( string path )
