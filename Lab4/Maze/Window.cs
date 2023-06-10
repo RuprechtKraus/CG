@@ -36,7 +36,7 @@ namespace Maze
             GL.FrontFace( FrontFaceDirection.Ccw );
             GL.Enable( EnableCap.DepthTest );
 
-            _camera = new Camera( new Vector3( -7.5f, 0.5f, 1 ), Width / Height );
+            _camera = new Camera( new Vector3( -7.5f, 0.5f, 1.0f ), Width / Height );
             MouseMove += Window_MouseMove;
         }
 
@@ -91,7 +91,7 @@ namespace Maze
 
         private void HandleKeyboardInput()
         {
-            KeyboardState input = Keyboard.GetState( 1 );
+            KeyboardState input = Keyboard.GetState( 0 );
 
             if ( input.IsKeyDown( Key.W ) )
             {
