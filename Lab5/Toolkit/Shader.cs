@@ -17,26 +17,22 @@ public class Shader : IDisposable
         GL.ShaderSource( _shader, source );
     }
 
+    public void Compile()
+    {
+        GL.CompileShader( _shader );
+    }
+
     public int GetParameter( ShaderParameter parameter )
     {
         GL.GetShader( _shader, parameter, out int param );
         return param;
     }
 
-    public string GetInfoLog()
-    {
-        return GL.GetShaderInfoLog( _shader );
-    }
+    public int Get() => _shader;
 
-    public int Get()
-    {
-        return _shader;
-    }
+    public string GetInfoLog() => GL.GetShaderInfoLog( _shader );
 
-    public void Compile()
-    {
-        GL.CompileShader( _shader );
-    }
+    #region Disposing
     
     private bool _disposed = false;
 
@@ -64,4 +60,6 @@ public class Shader : IDisposable
             Console.WriteLine( "GPU Resource leak! Did you forget to call Dispose()?" );
         }
     }
+    
+    #endregion
 }
