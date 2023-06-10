@@ -1,3 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Curve;
 
-Console.WriteLine("Hello, World!");
+using var window = new Window( 800, 600, "Curve" );
+window.Run();
