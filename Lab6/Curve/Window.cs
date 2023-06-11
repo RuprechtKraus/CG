@@ -3,6 +3,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Toolkit;
+using Toolkit.Shaders;
 
 namespace Curve;
 
@@ -38,8 +39,9 @@ public class Window : GameWindow
             ShaderType.FragmentShader, 
             @"../../../Shaders/shader.frag" );
 
-        vertexShader.Compile();
-        fragmentShader.Compile();
+        ShaderCompiler shaderCompiler = new();
+        shaderCompiler.Compile( vertexShader );
+        shaderCompiler.Compile( fragmentShader );
 
         _program = new ShaderProgram();
 

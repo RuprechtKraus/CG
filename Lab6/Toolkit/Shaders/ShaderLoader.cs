@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace Toolkit;
+namespace Toolkit.Shaders;
 
 public static class ShaderLoader
 {
