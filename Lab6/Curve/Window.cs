@@ -32,10 +32,10 @@ public class Window : GameWindow
 
         InitVertexBufferObject();
 
-        var vertexShader = ShaderLoader.LoadShader( 
+        Shader vertexShader = ShaderLoader.LoadShader( 
             ShaderType.VertexShader, 
             @"../../../Shaders/shader.vert" );
-        var fragmentShader = ShaderLoader.LoadShader( 
+        Shader fragmentShader = ShaderLoader.LoadShader( 
             ShaderType.FragmentShader, 
             @"../../../Shaders/shader.frag" );
 
