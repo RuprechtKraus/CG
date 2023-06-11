@@ -45,12 +45,12 @@ public class Window : GameWindow
 
         _program = new ShaderProgram();
 
-        _program.AttachShader( vertexShader.Get() );
-        _program.AttachShader( fragmentShader.Get() );
+        _program.AttachShader( vertexShader );
+        _program.AttachShader( fragmentShader );
         _program.Link();
 
-        _program.DetachShader( vertexShader.Get() );
-        _program.DetachShader( fragmentShader.Get() );
+        _program.DetachShader( vertexShader );
+        _program.DetachShader( fragmentShader );
 
         vertexShader.Delete();
         fragmentShader.Delete();

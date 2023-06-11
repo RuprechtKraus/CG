@@ -15,10 +15,20 @@ public class ShaderProgram : IDisposable
     {
         GL.AttachShader( _program, shader );
     }
+    
+    public void AttachShader( Shader shader )
+    {
+        AttachShader( shader.Get() );
+    }
 
     public void DetachShader( int shader )
     {
         GL.DetachShader( _program, shader );
+    }
+    
+    public void DetachShader( Shader shader )
+    {
+        DetachShader( shader.Get() );
     }
 
     public void Link()
