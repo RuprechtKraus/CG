@@ -32,11 +32,11 @@ public class Window : GameWindow
 
         InitVertexBufferObject();
 
-        Shader vertexShader = ShaderLoader.LoadShader( 
-            ShaderType.VertexShader, 
+        Shader vertexShader = ShaderLoader.LoadShader(
+            ShaderType.VertexShader,
             @"../../../Shaders/shader.vert" );
-        Shader fragmentShader = ShaderLoader.LoadShader( 
-            ShaderType.FragmentShader, 
+        Shader fragmentShader = ShaderLoader.LoadShader(
+            ShaderType.FragmentShader,
             @"../../../Shaders/shader.frag" );
 
         ShaderCompiler shaderCompiler = new();
@@ -47,7 +47,10 @@ public class Window : GameWindow
 
         _program.AttachShader( vertexShader );
         _program.AttachShader( fragmentShader );
-        _program.Link();
+
+        ShaderProgramLinker linker = new();
+        linker.LinkProgram( _program );
+        linker.CheckStatus();
 
         _program.DetachShader( vertexShader );
         _program.DetachShader( fragmentShader );
