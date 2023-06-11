@@ -6,8 +6,9 @@ uniform float time;
 
 void main()
 {
-    float animationTime = 2.0;
-    float y = sin(position.x * 10) / position.x * 0.1;
+    float animationTime = 1.0;
+    float x = position.x * 10;
+    float y = sin(x) / x;
     float dist = position.y + y;
     float dy = time * dist / animationTime;
     

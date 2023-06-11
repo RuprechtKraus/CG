@@ -18,7 +18,7 @@ public class Window : GameWindow
     private float _time = 0.0f;
     
     private const float AnimationPeriod = 2.0f;
-    private const float AnimationTime = 2.0f;
+    private const float AnimationTime = 1.0f;
 
     private readonly Stopwatch _stopwatch = new();
 
@@ -137,7 +137,7 @@ public class Window : GameWindow
         GL.Clear( ClearBufferMask.ColorBufferBit );
 
         GL.BindVertexArray( _vertexArrayObject );
-        GL.DrawArrays( PrimitiveType.LineStrip, 0, 101 );
+        GL.DrawArrays( PrimitiveType.LineStrip, 0, 501 );
         
         int timeLocation = _program.GetUniformLocation( "time" );
         GL.Uniform1( timeLocation, _time );
@@ -147,7 +147,7 @@ public class Window : GameWindow
 
     private void FillVertices()
     {
-        const int count = 100;
+        const int count = 500;
         const int dimension = 2;
         const float step = 2.0f / count;
         _vertices = new float[ count * dimension + 1 ];
