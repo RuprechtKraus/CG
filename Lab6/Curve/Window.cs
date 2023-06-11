@@ -31,11 +31,12 @@ public class Window : GameWindow
 
         InitVertexBufferObject();
 
-        var vertexShader = new Shader( ShaderType.VertexShader );
-        var fragmentShader = new Shader( ShaderType.FragmentShader );
-
-        vertexShader.LoadCode( @"../../../Shaders/shader.vert" );
-        fragmentShader.LoadCode( @"../../../Shaders/shader.frag" );
+        var vertexShader = ShaderLoader.LoadShader( 
+            ShaderType.VertexShader, 
+            @"../../../Shaders/shader.vert" );
+        var fragmentShader = ShaderLoader.LoadShader( 
+            ShaderType.FragmentShader, 
+            @"../../../Shaders/shader.frag" );
 
         vertexShader.Compile();
         fragmentShader.Compile();

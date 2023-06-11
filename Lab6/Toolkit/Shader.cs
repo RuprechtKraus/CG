@@ -11,10 +11,9 @@ public class Shader
         _shader = GL.CreateShader( type );
     }
 
-    public void LoadCode( string path )
+    public void SetSource( string source )
     {
-        string code = File.ReadAllText( path );
-        GL.ShaderSource( _shader, code );
+        GL.ShaderSource( _shader, source );
     }
 
     public void Compile()
