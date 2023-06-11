@@ -40,8 +40,8 @@ public class Window : GameWindow
             @"../../../Shaders/shader.frag" );
 
         ShaderCompiler shaderCompiler = new();
-        shaderCompiler.Compile( vertexShader );
-        shaderCompiler.Compile( fragmentShader );
+        shaderCompiler.CompileShader( vertexShader );
+        shaderCompiler.CompileShader( fragmentShader );
 
         _program = new ShaderProgram();
 

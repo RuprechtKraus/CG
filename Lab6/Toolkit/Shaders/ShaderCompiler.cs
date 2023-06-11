@@ -6,13 +6,13 @@ public class ShaderCompiler
 {
     private readonly List<int> _shaders = new();
 
-    public void Compile( int shader )
+    public void CompileShader( int shader )
     {
         GL.CompileShader( shader );
         _shaders.Add( shader );
     }
 
-    public void Compile( Shader shader )
+    public void CompileShader( Shader shader )
     {
         int id = shader.Get();
         
