@@ -24,7 +24,7 @@ public class ShaderProgramLinker
 
         foreach ( int program in _programs )
         {
-            GL.GetProgram( program, GetProgramParameterName.LinkStatus,  out int param );
+            GL.GetProgram( program, GetProgramParameterName.LinkStatus, out int param );
             if ( param != 1 )
             {
                 error = true;

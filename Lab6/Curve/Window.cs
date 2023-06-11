@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -13,6 +14,13 @@ public class Window : GameWindow
     private int _vertexBufferObject;
     private int _vertexArrayObject;
     private ShaderProgram _program;
+
+    private float _time = 0.0f;
+    
+    private const float AnimationPeriod = 2.0f;
+    private const float AnimationTime = 2.0f;
+
+    private readonly Stopwatch _stopwatch = new();
 
     public Window( int width, int height, string title )
         : base( GameWindowSettings.Default, new NativeWindowSettings
@@ -31,6 +39,8 @@ public class Window : GameWindow
         FillVertices();
 
         InitVertexBufferObject();
+
+        #region Shaders
 
         Shader vertexShader = ShaderLoader.LoadShader(
             ShaderType.VertexShader,
@@ -59,6 +69,10 @@ public class Window : GameWindow
         fragmentShader.Delete();
 
         _program.Use();
+
+        #endregion
+        
+        _stopwatch.Start();
     }
 
     private void InitVertexBufferObject()
@@ -77,6 +91,24 @@ public class Window : GameWindow
 
         GL.VertexAttribPointer( 0, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0 );
         GL.EnableVertexAttribArray( 0 );
+    }
+
+    protected override void OnUpdateFrame( FrameEventArgs args )
+    {
+        base.OnUpdateFrame( args );
+
+        if ( _stopwatch.IsRunning )
+        {
+            float elapsedSeconds = _stopwatch.ElapsedMilliseconds / 1000f;
+            if ( elapsedSeconds < AnimationTime )
+            {
+                _time = elapsedSeconds;
+            }
+            else
+            {
+                _stopwatch.Stop();
+            }
+        }
     }
 
     protected override void OnRenderFrame( FrameEventArgs args )
@@ -106,6 +138,9 @@ public class Window : GameWindow
 
         GL.BindVertexArray( _vertexArrayObject );
         GL.DrawArrays( PrimitiveType.LineStrip, 0, 101 );
+        
+        int timeLocation = _program.GetUniformLocation( "time" );
+        GL.Uniform1( timeLocation, _time );
 
         SwapBuffers();
     }
