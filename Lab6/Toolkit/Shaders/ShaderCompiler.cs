@@ -14,10 +14,7 @@ public class ShaderCompiler
 
     public void CompileShader( Shader shader )
     {
-        int id = shader.Get();
-        
-        GL.CompileShader( id );
-        _shaders.Add( id );
+        CompileShader( shader.Get() );
     }
 
     public void CheckStatus()
