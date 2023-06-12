@@ -87,6 +87,7 @@ public class Window : GameWindow
     protected override void OnRenderFrame( FrameEventArgs args )
     {
         base.OnRenderFrame( args );
+        
         DrawFrame();
     }
 
