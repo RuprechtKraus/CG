@@ -3,22 +3,16 @@ using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
-using Toolkit;
 using Toolkit.Shaders;
 
 namespace Curve;
 
 public class Window : GameWindow
 {
-    private float[] _vertices = Array.Empty<float>();
-    private int _vertexBufferObject;
-    private int _vertexArrayObject;
+    private Graph _graph;
     private ShaderProgram _program;
 
-    private float _time = 0.0f;
-    
-    private const float AnimationPeriod = 2.0f;
-    private const float AnimationTime = 1.0f;
+    private float _time;
 
     private readonly Stopwatch _stopwatch = new();
 
@@ -36,9 +30,6 @@ public class Window : GameWindow
         base.OnLoad();
 
         GL.ClearColor( Color.White );
-        FillVertices();
-
-        InitVertexBufferObject();
 
         #region Shaders
 
@@ -68,29 +59,20 @@ public class Window : GameWindow
         vertexShader.Delete();
         fragmentShader.Delete();
 
-        _program.Use();
-
         #endregion
-        
+
+        _graph = new Graph(
+            program: _program,
+            timeLocation: GL.GetUniformLocation(
+                _program.Get(),
+                "time" ),
+            animationDurationLocation: GL.GetUniformLocation(
+                _program.Get(),
+                "animationDuration" )
+        );
+        _graph.AnimationDurationInSeconds = 2.0f;
+
         _stopwatch.Start();
-    }
-
-    private void InitVertexBufferObject()
-    {
-        _vertexArrayObject = GL.GenVertexArray();
-        _vertexBufferObject = GL.GenBuffer();
-
-        GL.BindVertexArray( _vertexArrayObject );
-
-        GL.BindBuffer( BufferTarget.ArrayBuffer, _vertexBufferObject );
-        GL.BufferData(
-            BufferTarget.ArrayBuffer,
-            _vertices.Length * sizeof(float),
-            _vertices,
-            BufferUsageHint.StreamDraw );
-
-        GL.VertexAttribPointer( 0, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0 );
-        GL.EnableVertexAttribArray( 0 );
     }
 
     protected override void OnUpdateFrame( FrameEventArgs args )
@@ -99,15 +81,7 @@ public class Window : GameWindow
 
         if ( _stopwatch.IsRunning )
         {
-            float elapsedSeconds = _stopwatch.ElapsedMilliseconds / 1000f;
-            if ( elapsedSeconds < AnimationTime )
-            {
-                _time = elapsedSeconds;
-            }
-            else
-            {
-                _stopwatch.Stop();
-            }
+            _time = _stopwatch.ElapsedMilliseconds / 1000f;
         }
     }
 
@@ -136,29 +110,8 @@ public class Window : GameWindow
     {
         GL.Clear( ClearBufferMask.ColorBufferBit );
 
-        GL.BindVertexArray( _vertexArrayObject );
-        GL.DrawArrays( PrimitiveType.LineStrip, 0, 501 );
-        
-        int timeLocation = _program.GetUniformLocation( "time" );
-        GL.Uniform1( timeLocation, _time );
+        _graph.Draw( _time );
 
         SwapBuffers();
-    }
-
-    private void FillVertices()
-    {
-        const int count = 500;
-        const int dimension = 2;
-        const float step = 2.0f / count;
-        _vertices = new float[ count * dimension + 1 ];
-
-        float x = -1.0f;
-        for ( int i = 0; x < 1.0f; i += 2 )
-        {
-            _vertices[ i ] = x;
-            x += step;
-        }
-
-        _vertices[ count * dimension ] = 1.0f;
     }
 }

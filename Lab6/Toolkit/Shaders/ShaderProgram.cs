@@ -15,7 +15,7 @@ public class ShaderProgram : IDisposable
     {
         GL.AttachShader( _program, shader );
     }
-    
+
     public void AttachShader( Shader shader )
     {
         AttachShader( shader.Get() );
@@ -25,7 +25,7 @@ public class ShaderProgram : IDisposable
     {
         GL.DetachShader( _program, shader );
     }
-    
+
     public void DetachShader( Shader shader )
     {
         DetachShader( shader.Get() );
@@ -40,12 +40,17 @@ public class ShaderProgram : IDisposable
     {
         GL.ValidateProgram( _program );
     }
-    
+
     public void Use()
     {
         GL.UseProgram( _program );
     }
-    
+
+    public void Disuse()
+    {
+        GL.UseProgram( 0 );
+    }
+
     public int GetParameter( GetProgramParameterName parameter )
     {
         GL.GetProgram( _program, parameter, out int param );
@@ -55,7 +60,7 @@ public class ShaderProgram : IDisposable
     public int GetUniformLocation( string name ) => GL.GetUniformLocation( _program, name );
 
     public int GetAttributeLocation( string name ) => GL.GetAttribLocation( _program, name );
-    
+
     public int Get() => _program;
 
     public string GetInfoLog() => GL.GetProgramInfoLog( _program );
