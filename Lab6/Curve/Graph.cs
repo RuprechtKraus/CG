@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using Toolkit.Shaders;
 
 namespace Curve;
@@ -25,7 +26,7 @@ public class Graph
         _animationDurationLocation = animationDurationLocation;
     }
     
-    public void Draw( float time )
+    public void Draw( float time, int width, int height )
     {
         if ( _program.Get() == 0 )
         {

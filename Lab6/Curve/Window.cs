@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Toolkit.Shaders;
@@ -87,7 +88,7 @@ public class Window : GameWindow
     protected override void OnRenderFrame( FrameEventArgs args )
     {
         base.OnRenderFrame( args );
-        
+
         DrawFrame();
     }
 
@@ -110,8 +111,35 @@ public class Window : GameWindow
     {
         GL.Clear( ClearBufferMask.ColorBufferBit );
 
-        _graph.Draw( _time );
+        SetupProjectionMatrix();
+        _graph.Draw( _time, Size.X, Size.Y );
 
         SwapBuffers();
+    }
+
+    private void SetupProjectionMatrix()
+    {
+        _program.Use();
+
+        float aspectRatio = (float) Size.X / Size.Y;
+
+        float width = 2.0f;
+        float height = 2.0f;
+
+        if ( aspectRatio > 1.0f )
+        {
+            width *= aspectRatio;
+        }
+        else
+        {
+            height /= aspectRatio;
+        }
+        
+        Matrix4 ortho = Matrix4.CreateOrthographic( width, height, -1.0f, 1.0f );
+
+        int projectionLocation = _program.GetUniformLocation( "projection" );
+        GL.UniformMatrix4( projectionLocation, true, ref ortho );
+        
+        _program.Disuse();
     }
 }
