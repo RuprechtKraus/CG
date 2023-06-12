@@ -5,6 +5,8 @@ namespace Curve;
 
 public class Graph
 {
+    private const int VerticesCount = 500; 
+        
     private readonly ShaderProgram _program;
     private readonly int _animationDurationLocation;
     private readonly int _timeLocation;
@@ -25,11 +27,14 @@ public class Graph
     
     public void Draw( float time )
     {
+        if ( _program.Get() == 0 )
+        {
+            return;
+        }
+        
         if ( !_initialized )
         {
-            InitializeVertices();
-            InitializeVertexBufferObject();
-            _initialized = true;
+            Initialize();
         }
         
         _program.Use();
@@ -44,12 +49,20 @@ public class Graph
             : AnimationDurationInSeconds;
         GL.Uniform1( _timeLocation, time );
         
-        GL.DrawArrays( PrimitiveType.LineStrip, 0, 501 );
+        GL.DrawArrays( PrimitiveType.LineStrip, 0, VerticesCount + 1 );
 
         GL.BindVertexArray( 0 );
         GL.DisableVertexAttribArray( 0 );
         
         _program.Disuse();
+    }
+
+    private void Initialize()
+    {
+        InitializeVertices();
+        InitializeVertexBufferObject();
+        
+        _initialized = true;
     }
 
     private void InitializeVertexBufferObject()
@@ -71,10 +84,10 @@ public class Graph
 
     private void InitializeVertices()
     {
-        const int count = 500;
         const int dimension = 2;
-        const float step = 2.0f / count;
-        _vertices = new float[ count * dimension + 1 ];
+        const float step = 2.0f / VerticesCount;
+        
+        _vertices = new float[ VerticesCount * dimension + 1 ];
 
         float x = -1.0f;
         for ( int i = 0; x < 1.0f; i += 2 )
@@ -83,6 +96,6 @@ public class Graph
             x += step;
         }
 
-        _vertices[ count * dimension ] = 1.0f;
+        _vertices[ VerticesCount * dimension ] = 1.0f;
     }
 }

@@ -9,12 +9,11 @@ namespace Curve;
 
 public class Window : GameWindow
 {
-    private Graph _graph;
-    private ShaderProgram _program;
-
-    private float _time;
-
     private readonly Stopwatch _stopwatch = new();
+
+    private Graph _graph = null!;
+    private ShaderProgram _program = null!;
+    private float _time;
 
     public Window( int width, int height, string title )
         : base( GameWindowSettings.Default, new NativeWindowSettings
@@ -31,8 +30,14 @@ public class Window : GameWindow
 
         GL.ClearColor( Color.White );
 
-        #region Shaders
+        InitializeShaders();
+        InitializeGraph();
 
+        _stopwatch.Start();
+    }
+
+    private void InitializeShaders()
+    {
         Shader vertexShader = ShaderLoader.LoadShader(
             ShaderType.VertexShader,
             @"../../../Shaders/shader.vert" );
@@ -45,7 +50,6 @@ public class Window : GameWindow
         shaderCompiler.CompileShader( fragmentShader );
 
         _program = new ShaderProgram();
-
         _program.AttachShader( vertexShader );
         _program.AttachShader( fragmentShader );
 
@@ -58,21 +62,16 @@ public class Window : GameWindow
 
         vertexShader.Delete();
         fragmentShader.Delete();
+    }
 
-        #endregion
-
+    private void InitializeGraph()
+    {
         _graph = new Graph(
-            program: _program,
-            timeLocation: GL.GetUniformLocation(
-                _program.Get(),
-                "time" ),
-            animationDurationLocation: GL.GetUniformLocation(
-                _program.Get(),
-                "animationDuration" )
+            _program,
+            _program.GetUniformLocation( "time" ),
+            _program.GetUniformLocation( "animationDurationInSeconds" )
         );
         _graph.AnimationDurationInSeconds = 2.0f;
-
-        _stopwatch.Start();
     }
 
     protected override void OnUpdateFrame( FrameEventArgs args )
