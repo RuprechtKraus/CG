@@ -13,8 +13,10 @@ public class Window : GameWindow
 {
     private readonly Stopwatch _stopwatch = new();
 
+    private Plot _plot = null!;
     private Graph _graph = null!;
-    private ShaderProgram _program = null!;
+    private ShaderProgram _graphProgram = null!;
+    private ShaderProgram _plotProgram = null!;
     private float _time;
 
     public Window( int width, int height, string title )
@@ -32,17 +34,26 @@ public class Window : GameWindow
 
         GL.ClearColor( Color.White );
 
-        InitializeShaders();
-        InitializeGraph();
+        InitializeGraphShaders();
+        InitializePlotShaders();
+        
+        _graph = new Graph(
+            _graphProgram,
+            _graphProgram.GetUniformLocation( "time" ),
+            _graphProgram.GetUniformLocation( "animationDurationInSeconds" )
+        );
+        _graph.AnimationDurationInSeconds = 2.0f;
+        
+        _plot = new Plot( _plotProgram );
 
         _stopwatch.Start();
     }
 
-    private void InitializeShaders()
+    private void InitializeGraphShaders()
     {
         Shader vertexShader = ShaderLoader.LoadShader(
             ShaderType.VertexShader,
-            @"../../../Shaders/shader.vert" );
+            @"../../../Shaders/graph.vert" );
         Shader fragmentShader = ShaderLoader.LoadShader(
             ShaderType.FragmentShader,
             @"../../../Shaders/shader.frag" );
@@ -50,30 +61,43 @@ public class Window : GameWindow
         ShaderCompiler shaderCompiler = new();
         shaderCompiler.CompileShader( vertexShader );
         shaderCompiler.CompileShader( fragmentShader );
-
-        _program = new ShaderProgram();
-        _program.AttachShader( vertexShader );
-        _program.AttachShader( fragmentShader );
+        shaderCompiler.CheckStatus();
+        
+        _graphProgram = new ShaderProgram();
+        _graphProgram.AttachShader( vertexShader );
+        _graphProgram.AttachShader( fragmentShader );
 
         ShaderProgramLinker linker = new();
-        linker.LinkProgram( _program );
+        linker.LinkProgram( _graphProgram );
         linker.CheckStatus();
 
-        _program.DetachShader( vertexShader );
-        _program.DetachShader( fragmentShader );
+        _graphProgram.DetachShader( vertexShader );
+        _graphProgram.DetachShader( fragmentShader );
 
         vertexShader.Delete();
         fragmentShader.Delete();
     }
-
-    private void InitializeGraph()
+    
+    private void InitializePlotShaders()
     {
-        _graph = new Graph(
-            _program,
-            _program.GetUniformLocation( "time" ),
-            _program.GetUniformLocation( "animationDurationInSeconds" )
-        );
-        _graph.AnimationDurationInSeconds = 2.0f;
+        Shader vertexShader = ShaderLoader.LoadShader(
+            ShaderType.VertexShader,
+            @"../../../Shaders/plot.vert" );
+
+        ShaderCompiler shaderCompiler = new();
+        shaderCompiler.CompileShader( vertexShader );
+        shaderCompiler.CheckStatus();
+        
+        _plotProgram = new ShaderProgram();
+        _plotProgram.AttachShader( vertexShader );
+
+        ShaderProgramLinker linker = new();
+        linker.LinkProgram( _plotProgram );
+        linker.CheckStatus();
+
+        _plotProgram.DetachShader( vertexShader );
+
+        vertexShader.Delete();
     }
 
     protected override void OnUpdateFrame( FrameEventArgs args )
@@ -105,16 +129,21 @@ public class Window : GameWindow
     {
         base.OnUnload();
 
-        _program.Dispose();
+        _graphProgram.Dispose();
     }
 
     private void DrawFrame()
     {
         GL.Clear( ClearBufferMask.ColorBufferBit );
 
-        int projectionLocation = _program.GetUniformLocation( "projection" );
-        GLExtensions.SetupProjectionMatrix( _program.Get(), Size.X, Size.Y, projectionLocation );
+        int graphProjectionLocation = _graphProgram.GetUniformLocation( "projection" );
+        GLExtensions.SetupProjectionMatrix( _graphProgram.Get(), Size.X, Size.Y, graphProjectionLocation );
+        
+        int plotProjectionLocation = _plotProgram.GetUniformLocation( "projection" );
+        GLExtensions.SetupProjectionMatrix( _plotProgram.Get(), Size.X, Size.Y, plotProjectionLocation );
+        
         _graph.Draw( _time, Size.X, Size.Y );
+        _plot.Draw();
 
         SwapBuffers();
     }

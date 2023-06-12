@@ -25,7 +25,7 @@ public class ShaderCompiler
         foreach ( int shader in _shaders )
         {
             GL.GetShader( shader, ShaderParameter.CompileStatus, out int param );
-            if ( param != 0 )
+            if ( param != 1 )
             {
                 error = true;
                 sw.WriteLine( $"Shader {shader} compilation failed: {GL.GetShaderInfoLog( shader )}" );
