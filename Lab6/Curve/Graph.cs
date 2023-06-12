@@ -1,5 +1,4 @@
 ﻿using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using Toolkit.Shaders;
 
 namespace Curve;
@@ -13,8 +12,10 @@ public class Graph
     private readonly int _timeLocation;
 
     private float[] _vertices = Array.Empty<float>();
+    
     private int _vertexBufferObject;
     private int _vertexArrayObject;
+    
     private bool _initialized;
 
     public float AnimationDurationInSeconds { get; set; } = 1.0f;
@@ -65,6 +66,23 @@ public class Graph
         
         _initialized = true;
     }
+    
+    private void InitializeVertices()
+    {
+        const int dimension = 2;
+        const float step = 2.0f / VerticesCount;
+        
+        _vertices = new float[ VerticesCount * dimension + 1 ];
+
+        float x = -1.0f;
+        for ( int i = 0; x < 1.0f; i += 2 )
+        {
+            _vertices[ i ] = x;
+            x += step;
+        }
+
+        _vertices[ VerticesCount * dimension ] = 1.0f;
+    }
 
     private void InitializeVertexBufferObject()
     {
@@ -81,22 +99,5 @@ public class Graph
             BufferUsageHint.StreamDraw );
         
         GL.VertexAttribPointer( 0, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0 );
-    }
-
-    private void InitializeVertices()
-    {
-        const int dimension = 2;
-        const float step = 2.0f / VerticesCount;
-        
-        _vertices = new float[ VerticesCount * dimension + 1 ];
-
-        float x = -1.0f;
-        for ( int i = 0; x < 1.0f; i += 2 )
-        {
-            _vertices[ i ] = x;
-            x += step;
-        }
-
-        _vertices[ VerticesCount * dimension ] = 1.0f;
     }
 }
