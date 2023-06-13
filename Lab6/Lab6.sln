@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Curve", "Curve\Curve.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "Toolkit\Toolkit.csproj", "{A731215B-F7FB-43F4-8E90-67FE2B046876}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flag", "Flag\Flag.csproj", "{3ED8CF53-A549-405A-B604-3584077BFF4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{A731215B-F7FB-43F4-8E90-67FE2B046876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A731215B-F7FB-43F4-8E90-67FE2B046876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A731215B-F7FB-43F4-8E90-67FE2B046876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ED8CF53-A549-405A-B604-3584077BFF4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ED8CF53-A549-405A-B604-3584077BFF4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ED8CF53-A549-405A-B604-3584077BFF4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ED8CF53-A549-405A-B604-3584077BFF4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
