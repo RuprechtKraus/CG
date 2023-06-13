@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
-using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Toolkit;
