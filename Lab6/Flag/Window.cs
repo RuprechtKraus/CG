@@ -115,7 +115,7 @@ public class Window : GameWindow
     {
         base.OnResize( e );
 
-        GL.Viewport( 0, 0, e.Width, e.Height );
+        GL.Viewport( e.Width / 4, e.Height / 4, e.Width / 2, e.Height / 2 );
         DrawFrame();
     }
 
