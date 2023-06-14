@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toolkit", "Toolkit\Toolkit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flag", "Flag\Flag.csproj", "{3ED8CF53-A549-405A-B604-3584077BFF4A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ripples", "Ripples\Ripples.csproj", "{CE416480-9A7C-46CF-9A39-1551619ACC89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{3ED8CF53-A549-405A-B604-3584077BFF4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ED8CF53-A549-405A-B604-3584077BFF4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ED8CF53-A549-405A-B604-3584077BFF4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE416480-9A7C-46CF-9A39-1551619ACC89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE416480-9A7C-46CF-9A39-1551619ACC89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE416480-9A7C-46CF-9A39-1551619ACC89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE416480-9A7C-46CF-9A39-1551619ACC89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
