@@ -47,7 +47,7 @@ public class Window : GameWindow
         InitializeShaders();
         InitializeBuffers();
     }
-    
+
     private void InitializeShaders()
     {
         Shader vertexShader = ShaderLoader.LoadShader(
@@ -82,26 +82,26 @@ public class Window : GameWindow
         _vertexBufferObject = GL.GenBuffer();
         _vertexArrayObject = GL.GenVertexArray();
 
-        GL.BindVertexArray(_vertexArrayObject);
+        GL.BindVertexArray( _vertexArrayObject );
 
-        GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
+        GL.BindBuffer( BufferTarget.ArrayBuffer, _vertexBufferObject );
         GL.BufferData(
             BufferTarget.ArrayBuffer,
             _vertices.Length * sizeof(float),
             _vertices,
-            BufferUsageHint.StaticDraw);
+            BufferUsageHint.StaticDraw );
 
         _elementBufferObject = GL.GenBuffer();
 
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
+        GL.BindBuffer( BufferTarget.ElementArrayBuffer, _elementBufferObject );
         GL.BufferData(
             BufferTarget.ElementArrayBuffer,
             _indices.Length * sizeof(uint),
             _indices,
-            BufferUsageHint.StaticDraw);
+            BufferUsageHint.StaticDraw );
 
-        GL.EnableVertexAttribArray(0);
-        GL.VertexAttribPointer(0, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0);
+        GL.EnableVertexAttribArray( 0 );
+        GL.VertexAttribPointer( 0, 2, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0 );
     }
 
     protected override void OnRenderFrame( FrameEventArgs args )
