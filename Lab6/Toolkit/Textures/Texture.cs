@@ -6,6 +6,8 @@ namespace Toolkit.Textures;
 public class Texture
 {
     private readonly int _handle;
+    
+    public TextureUnit Unit { get; private set; }
 
     public Texture( int texture )
     {
@@ -14,6 +16,7 @@ public class Texture
 
     public void Use( TextureUnit unit )
     {
+        Unit = unit;
         GL.ActiveTexture( unit );
         GL.BindTexture( TextureTarget.Texture2D, _handle );
     }

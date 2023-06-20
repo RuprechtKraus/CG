@@ -61,14 +61,14 @@ public class Window : GameWindow
         InitializeTextures();
         InitializeVertexObjects();
         InitializeElementBuffer();
-        
+
         _program.Use();
-        
+
         _projectionLocation = _program.GetUniformLocation( "projection" );
         _program.SetUniform2( "resolution", _resolution );
-        
+
         _program.Disuse();
-        
+
         _stopwatch.Start();
     }
 
@@ -177,10 +177,34 @@ public class Window : GameWindow
     {
         base.OnUpdateFrame( args );
 
+        float elapsedSeconds = AdvanceTime();
+
+        const float animationDuration = 12.5f;
+        if ( elapsedSeconds >= animationDuration )
+        {
+            _stopwatch.Reset();
+            SwapTextures( _texture1, _texture2 );
+            _stopwatch.Start();
+        }
+    }
+
+    private float AdvanceTime()
+    {
         float elapsedSeconds = (float) _stopwatch.ElapsedMilliseconds / 1000;
+
         _program.Use();
         _program.SetUniform1( "time", elapsedSeconds );
         _program.Disuse();
+
+        return elapsedSeconds;
+    }
+
+    private void SwapTextures( Texture tex1, Texture tex2 )
+    {
+        TextureUnit unit1 = tex1.Unit;
+        TextureUnit unit2 = tex2.Unit;
+        _texture1.Use( unit2 );
+        _texture2.Use( unit1 );
     }
 
     protected override void OnRenderFrame( FrameEventArgs args )

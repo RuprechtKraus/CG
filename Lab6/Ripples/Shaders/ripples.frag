@@ -21,9 +21,10 @@ void main()
     vec4 tex2 = texture(texture1, texCoord);
 
     float len = length(uv);
+    float outerCircleDistance = distance(texCoord / resolution, vec2(0.5, 0.5)) * 0.2 + time * 0.3;
+    float innerCircleDistance = distance(texCoord, vec2(0.5, 0.5)) * 0.2 + time * 0.15;
 
-    if (len <= (distance(texCoord / resolution, waveCenter) * 0.2 + time * 0.3) &&
-        len >= (distance(texCoord, waveCenter) * 0.2 + time * 0.15))
+    if (len <= outerCircleDistance && len >= innerCircleDistance)
     {
         vec2 wave = (uv / len) * sin(len * 30 - time * 10) * 0.03;
         texCoord += wave;
@@ -34,7 +35,7 @@ void main()
         tex1 *= 1.1;
     }
 
-    len = smoothstep(time * 0.15, time * 0.3, len);
+    len = smoothstep(innerCircleDistance, innerCircleDistance + 0.05, len);
     vec4 col = vec4(
         mix(tex2.x, tex1.x, len),
         mix(tex2.y, tex1.y, len),
