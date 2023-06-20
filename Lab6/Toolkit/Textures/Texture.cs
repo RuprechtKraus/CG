@@ -1,14 +1,18 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using System.Drawing;
+using OpenTK.Graphics.OpenGL4;
 
 namespace Toolkit.Textures;
 
 public class Texture
 {
-    public readonly int _handle;
+    private readonly int _handle;
 
-    public Texture( int texture )
+    public float AspectRatio { get; }
+
+    public Texture( int texture, float aspectRatio )
     {
         _handle = texture;
+        AspectRatio = aspectRatio;
     }
 
     public void Use( TextureUnit unit )
@@ -16,4 +20,6 @@ public class Texture
         GL.ActiveTexture( unit );
         GL.BindTexture( TextureTarget.Texture2D, _handle );
     }
+
+    public int Get() => _handle;
 }
