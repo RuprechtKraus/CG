@@ -12,8 +12,6 @@ namespace Ripples;
 [SuppressMessage( "Interoperability", "CA1416:Проверка совместимости платформы" )]
 public class Window : GameWindow
 {
-    private ShaderProgram _program = null!;
-
     private readonly float[] _imageVertices =
     {
         //Position  Texture coordinates
@@ -32,6 +30,8 @@ public class Window : GameWindow
     private int _vertexBufferObject;
     private int _vertexArrayObject;
     private int _elementBufferObject;
+    
+    private ShaderProgram _program = null!;
     private Texture _texture1 = null!;
     private Texture _texture2 = null!;
 
@@ -89,7 +89,7 @@ public class Window : GameWindow
     {
         _texture1 = TextureLoader.LoadTexture( "../../../Images/Texture 1.jpg" );
         _texture2 = TextureLoader.LoadTexture( "../../../Images/Texture 2.jpg" );
-        
+
         AdjustImageVertices();
 
         _program.Use();
