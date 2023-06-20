@@ -41,7 +41,6 @@ public class Window : GameWindow
     private Texture _texture2 = null!;
 
     private int _projectionLocation;
-    private int _timeLocation;
 
     public Window( int width, int height, string title )
         : base( GameWindowSettings.Default, new NativeWindowSettings
@@ -66,10 +65,11 @@ public class Window : GameWindow
         _program.Use();
         
         _projectionLocation = _program.GetUniformLocation( "projection" );
-        _timeLocation = _program.GetUniformLocation( "time" );
         _program.SetUniform2( "resolution", _resolution );
         
         _program.Disuse();
+        
+        _stopwatch.Start();
     }
 
     private void InitializeShaders()
@@ -171,6 +171,16 @@ public class Window : GameWindow
             _imageIndices.Length * sizeof(uint),
             _imageIndices,
             BufferUsageHint.StaticDraw );
+    }
+
+    protected override void OnUpdateFrame( FrameEventArgs args )
+    {
+        base.OnUpdateFrame( args );
+
+        float elapsedSeconds = (float) _stopwatch.ElapsedMilliseconds / 1000;
+        _program.Use();
+        _program.SetUniform1( "time", elapsedSeconds );
+        _program.Disuse();
     }
 
     protected override void OnRenderFrame( FrameEventArgs args )

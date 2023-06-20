@@ -70,6 +70,12 @@ public class ShaderProgram : IDisposable
         GL.Uniform1( location, value );
     }
     
+    public void SetUniform1( string name, float value )
+    {
+        int location = GetUniformLocation( name );
+        GL.Uniform1( location, value );
+    }
+    
     public void SetUniform2( string name, Vector2 value )
     {
         int location = GetUniformLocation( name );

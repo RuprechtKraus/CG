@@ -15,7 +15,7 @@ void main()
     vec2 uv = -1.0 + 2.0 * texCoord;
     uv.x *= (resolution.x / resolution.y);
     
-    if ( length(uv) > 0.2 )
+    if ( length(uv) > time * 0.2 )
     {
         fragColor = texture(texture0, texCoord);
     }
