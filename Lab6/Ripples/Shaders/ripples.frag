@@ -9,5 +9,12 @@ out vec4 fragColor;
 
 void main()
 {
-    fragColor = texture(texture0, texCoord);
+    if ( texCoord.x < 0.5 )
+    {
+        fragColor = texture(texture0, texCoord);
+    }
+    else
+    {
+        fragColor = texture(texture1, texCoord);
+    }
 }

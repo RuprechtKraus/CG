@@ -63,6 +63,12 @@ public class ShaderProgram : IDisposable
 
     public int Get() => _program;
 
+    public void SetUniform( string name, int value )
+    {
+        int location = GetUniformLocation( name );
+        GL.Uniform1( location, value );
+    }
+
     public string GetInfoLog() => GL.GetProgramInfoLog( _program );
 
     #region Disposing

@@ -32,7 +32,8 @@ public class Window : GameWindow
     private int _vertexBufferObject;
     private int _vertexArrayObject;
     private int _elementBufferObject;
-    private Texture _texture = null!;
+    private Texture _texture1 = null!;
+    private Texture _texture2 = null!;
 
     public Window( int width, int height, string title )
         : base( GameWindowSettings.Default, new NativeWindowSettings
@@ -86,22 +87,39 @@ public class Window : GameWindow
 
     private void InitializeTextures()
     {
-        _texture = TextureLoader.LoadTexture( "../../../Images/Texture 1.jpg" );
-        float textureAspectRatio = _texture.AspectRatio;
+        _texture1 = TextureLoader.LoadTexture( "../../../Images/Texture 1.jpg" );
+        _texture2 = TextureLoader.LoadTexture( "../../../Images/Texture 2.jpg" );
+        
+        AdjustImageVertices();
 
-        if ( textureAspectRatio > 1.0 )
+        _program.Use();
+
+        _texture1.Use( TextureUnit.Texture0 );
+        _texture2.Use( TextureUnit.Texture1 );
+
+        _program.SetUniform( "texture0", 0 );
+        _program.SetUniform( "texture1", 1 );
+
+        _program.Disuse();
+
+        void AdjustImageVertices()
         {
-            _imageVertices[ 1 ] /= textureAspectRatio;
-            _imageVertices[ 5 ] /= textureAspectRatio;
-            _imageVertices[ 9 ] /= textureAspectRatio;
-            _imageVertices[ 13 ] /= textureAspectRatio;
-        }
-        else
-        {
-            _imageVertices[ 0 ] *= textureAspectRatio;
-            _imageVertices[ 4 ] *= textureAspectRatio;
-            _imageVertices[ 8 ] *= textureAspectRatio;
-            _imageVertices[ 12 ] *= textureAspectRatio;
+            float textureAspectRatio = _texture1.AspectRatio;
+
+            if ( textureAspectRatio > 1.0 )
+            {
+                _imageVertices[ 1 ] /= textureAspectRatio;
+                _imageVertices[ 5 ] /= textureAspectRatio;
+                _imageVertices[ 9 ] /= textureAspectRatio;
+                _imageVertices[ 13 ] /= textureAspectRatio;
+            }
+            else
+            {
+                _imageVertices[ 0 ] *= textureAspectRatio;
+                _imageVertices[ 4 ] *= textureAspectRatio;
+                _imageVertices[ 8 ] *= textureAspectRatio;
+                _imageVertices[ 12 ] *= textureAspectRatio;
+            }
         }
     }
 
@@ -161,7 +179,6 @@ public class Window : GameWindow
         int projectionLocation = _program.GetUniformLocation( "projection" );
         GLExtensions.SetupLandscapeProjectionMatrix( _program.Get(), Size.X, Size.Y, projectionLocation, 16.0f / 9.0f );
 
-        _texture.Use( TextureUnit.Texture0 );
         _program.Use();
 
         GL.EnableVertexAttribArray( 0 );
