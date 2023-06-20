@@ -1,5 +1,8 @@
 ﻿#version 460 core
 
+uniform float time;
+uniform vec2 resolution;
+
 uniform sampler2D texture0;
 uniform sampler2D texture1;
 
@@ -9,7 +12,10 @@ out vec4 fragColor;
 
 void main()
 {
-    if ( texCoord.x < 0.5 )
+    vec2 uv = -1.0 + 2.0 * texCoord;
+    uv.x *= (resolution.x / resolution.y);
+    
+    if ( length(uv) > 0.2 )
     {
         fragColor = texture(texture0, texCoord);
     }

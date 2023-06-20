@@ -24,7 +24,6 @@ public static class TextureLoader
 
         BitmapData data = bitmap.LockBits( new Rectangle( 0, 0, bitmap.Width, bitmap.Height ), ImageLockMode.ReadOnly,
             System.Drawing.Imaging.PixelFormat.Format32bppArgb );
-        float aspectRatio = (float) data.Width / data.Height;
 
         GL.TexImage2D( TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
             OpenTK.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0 );
@@ -39,6 +38,6 @@ public static class TextureLoader
         bitmap.UnlockBits( data );
         GL.BindTexture( TextureTarget.Texture2D, 0 );
 
-        return new Texture( texture, aspectRatio );
+        return new Texture( texture );
     }
 }

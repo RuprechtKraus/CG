@@ -1,6 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using Toolkit;
@@ -12,6 +14,9 @@ namespace Ripples;
 [SuppressMessage( "Interoperability", "CA1416:Проверка совместимости платформы" )]
 public class Window : GameWindow
 {
+    private readonly Vector2 _resolution = new Vector2( 1920, 1080 );
+    private readonly Stopwatch _stopwatch = new Stopwatch();
+
     private readonly float[] _imageVertices =
     {
         //Position  Texture coordinates
@@ -30,10 +35,13 @@ public class Window : GameWindow
     private int _vertexBufferObject;
     private int _vertexArrayObject;
     private int _elementBufferObject;
-    
+
     private ShaderProgram _program = null!;
     private Texture _texture1 = null!;
     private Texture _texture2 = null!;
+
+    private int _projectionLocation;
+    private int _timeLocation;
 
     public Window( int width, int height, string title )
         : base( GameWindowSettings.Default, new NativeWindowSettings
@@ -54,6 +62,14 @@ public class Window : GameWindow
         InitializeTextures();
         InitializeVertexObjects();
         InitializeElementBuffer();
+        
+        _program.Use();
+        
+        _projectionLocation = _program.GetUniformLocation( "projection" );
+        _timeLocation = _program.GetUniformLocation( "time" );
+        _program.SetUniform2( "resolution", _resolution );
+        
+        _program.Disuse();
     }
 
     private void InitializeShaders()
@@ -97,28 +113,28 @@ public class Window : GameWindow
         _texture1.Use( TextureUnit.Texture0 );
         _texture2.Use( TextureUnit.Texture1 );
 
-        _program.SetUniform( "texture0", 0 );
-        _program.SetUniform( "texture1", 1 );
+        _program.SetUniform1( "texture0", 0 );
+        _program.SetUniform1( "texture1", 1 );
 
         _program.Disuse();
 
         void AdjustImageVertices()
         {
-            float textureAspectRatio = _texture1.AspectRatio;
+            float imageAspectRatio = _resolution.X / _resolution.Y;
 
-            if ( textureAspectRatio > 1.0 )
+            if ( imageAspectRatio > 1.0 )
             {
-                _imageVertices[ 1 ] /= textureAspectRatio;
-                _imageVertices[ 5 ] /= textureAspectRatio;
-                _imageVertices[ 9 ] /= textureAspectRatio;
-                _imageVertices[ 13 ] /= textureAspectRatio;
+                _imageVertices[ 1 ] /= imageAspectRatio;
+                _imageVertices[ 5 ] /= imageAspectRatio;
+                _imageVertices[ 9 ] /= imageAspectRatio;
+                _imageVertices[ 13 ] /= imageAspectRatio;
             }
             else
             {
-                _imageVertices[ 0 ] *= textureAspectRatio;
-                _imageVertices[ 4 ] *= textureAspectRatio;
-                _imageVertices[ 8 ] *= textureAspectRatio;
-                _imageVertices[ 12 ] *= textureAspectRatio;
+                _imageVertices[ 0 ] *= imageAspectRatio;
+                _imageVertices[ 4 ] *= imageAspectRatio;
+                _imageVertices[ 8 ] *= imageAspectRatio;
+                _imageVertices[ 12 ] *= imageAspectRatio;
             }
         }
     }
@@ -176,8 +192,8 @@ public class Window : GameWindow
     {
         GL.Clear( ClearBufferMask.ColorBufferBit );
 
-        int projectionLocation = _program.GetUniformLocation( "projection" );
-        GLExtensions.SetupLandscapeProjectionMatrix( _program.Get(), Size.X, Size.Y, projectionLocation, 16.0f / 9.0f );
+        GLExtensions.SetupLandscapeProjectionMatrix( _program.Get(), Size.X, Size.Y, _projectionLocation,
+            16.0f / 9.0f );
 
         _program.Use();
 

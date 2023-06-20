@@ -7,12 +7,9 @@ public class Texture
 {
     private readonly int _handle;
 
-    public float AspectRatio { get; }
-
-    public Texture( int texture, float aspectRatio )
+    public Texture( int texture )
     {
         _handle = texture;
-        AspectRatio = aspectRatio;
     }
 
     public void Use( TextureUnit unit )

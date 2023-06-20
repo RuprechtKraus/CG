@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 
 namespace Toolkit.Shaders;
 
@@ -63,10 +64,16 @@ public class ShaderProgram : IDisposable
 
     public int Get() => _program;
 
-    public void SetUniform( string name, int value )
+    public void SetUniform1( string name, int value )
     {
         int location = GetUniformLocation( name );
         GL.Uniform1( location, value );
+    }
+    
+    public void SetUniform2( string name, Vector2 value )
+    {
+        int location = GetUniformLocation( name );
+        GL.Uniform2( location, value );
     }
 
     public string GetInfoLog() => GL.GetProgramInfoLog( _program );
