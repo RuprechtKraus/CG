@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Drawing;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
@@ -8,20 +9,21 @@ using Toolkit.Textures;
 
 namespace Ripples;
 
+[SuppressMessage( "Interoperability", "CA1416:Проверка совместимости платформы" )]
 public class Window : GameWindow
 {
     private ShaderProgram _program = null!;
 
-    private float[] _vertices =
+    private readonly float[] _imageVertices =
     {
-        //Position   Texture coordinates
+        //Position  Texture coordinates
         1.0f, 1.0f, 1.0f, 0.0f, // top right
         1.0f, -1.0f, 1.0f, 1.0f, // bottom right
         -1.0f, -1.0f, 0.0f, 1.0f, // bottom left
         -1.0f, 1.0f, 0.0f, 0.0f // top left
     };
 
-    private readonly uint[] _indices =
+    private readonly uint[] _imageIndices =
     {
         0, 1, 3,
         1, 2, 3
@@ -48,7 +50,9 @@ public class Window : GameWindow
         GL.ClearColor( Color.White );
 
         InitializeShaders();
-        InitializeVertices();
+        InitializeTextures();
+        InitializeVertexObjects();
+        InitializeElementBuffer();
     }
 
     private void InitializeShaders()
@@ -80,27 +84,29 @@ public class Window : GameWindow
         fragmentShader.Delete();
     }
 
-    private void InitializeVertices()
+    private void InitializeTextures()
     {
         _texture = TextureLoader.LoadTexture( "../../../Images/Texture 1.jpg" );
-        float ar = _texture.AspectRatio;
+        float textureAspectRatio = _texture.AspectRatio;
 
-        if ( ar > 1.0 )
+        if ( textureAspectRatio > 1.0 )
         {
-            _vertices[ 1 ] /= ar;
-            _vertices[ 5 ] /= ar;
-            _vertices[ 9 ] /= ar;
-            _vertices[ 13 ] /= ar;
+            _imageVertices[ 1 ] /= textureAspectRatio;
+            _imageVertices[ 5 ] /= textureAspectRatio;
+            _imageVertices[ 9 ] /= textureAspectRatio;
+            _imageVertices[ 13 ] /= textureAspectRatio;
         }
         else
         {
-            _vertices[ 0 ] *= ar;
-            _vertices[ 4 ] *= ar;
-            _vertices[ 8 ] *= ar;
-            _vertices[ 12 ] *= ar;
+            _imageVertices[ 0 ] *= textureAspectRatio;
+            _imageVertices[ 4 ] *= textureAspectRatio;
+            _imageVertices[ 8 ] *= textureAspectRatio;
+            _imageVertices[ 12 ] *= textureAspectRatio;
         }
+    }
 
-        // Vertices coordinates
+    private void InitializeVertexObjects()
+    {
         _vertexBufferObject = GL.GenBuffer();
         _vertexArrayObject = GL.GenVertexArray();
 
@@ -109,27 +115,28 @@ public class Window : GameWindow
         GL.BindBuffer( BufferTarget.ArrayBuffer, _vertexBufferObject );
         GL.BufferData(
             BufferTarget.ArrayBuffer,
-            _vertices.Length * sizeof(float),
-            _vertices,
-            BufferUsageHint.StaticDraw );
-
-        // Element buffer
-        _elementBufferObject = GL.GenBuffer();
-
-        GL.BindBuffer( BufferTarget.ElementArrayBuffer, _elementBufferObject );
-        GL.BufferData(
-            BufferTarget.ElementArrayBuffer,
-            _indices.Length * sizeof(uint),
-            _indices,
+            _imageVertices.Length * sizeof(float),
+            _imageVertices,
             BufferUsageHint.StaticDraw );
 
         var vertexLocation = _program.GetAttributeLocation( "aPosition" );
         GL.VertexAttribPointer( vertexLocation, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float), 0 );
 
-        // Texture coordinates
         var texCoordLocation = _program.GetAttributeLocation( "aTexCoord" );
         GL.VertexAttribPointer( texCoordLocation, 2, VertexAttribPointerType.Float, false, 4 * sizeof(float),
             2 * sizeof(float) );
+    }
+
+    private void InitializeElementBuffer()
+    {
+        _elementBufferObject = GL.GenBuffer();
+
+        GL.BindBuffer( BufferTarget.ElementArrayBuffer, _elementBufferObject );
+        GL.BufferData(
+            BufferTarget.ElementArrayBuffer,
+            _imageIndices.Length * sizeof(uint),
+            _imageIndices,
+            BufferUsageHint.StaticDraw );
     }
 
     protected override void OnRenderFrame( FrameEventArgs args )
@@ -161,7 +168,7 @@ public class Window : GameWindow
         GL.EnableVertexAttribArray( 1 );
 
         GL.BindVertexArray( _vertexArrayObject );
-        GL.DrawElements( PrimitiveType.Triangles, _indices.Length, DrawElementsType.UnsignedInt, 0 );
+        GL.DrawElements( PrimitiveType.Triangles, _imageIndices.Length, DrawElementsType.UnsignedInt, 0 );
 
         GL.DisableVertexAttribArray( 1 );
         GL.DisableVertexAttribArray( 0 );
