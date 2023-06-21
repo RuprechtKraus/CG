@@ -11,6 +11,8 @@ in vec2 texCoord;
 
 out vec4 fragColor;
 
+const float speed = 2.5;
+
 void main()
 {    
     if (time < 0)
@@ -18,6 +20,8 @@ void main()
         fragColor = texture(texture0, texCoord);
         return;
     }
+    
+    float time = time * speed;
     
     vec2 uv =  -1.0 + 2.0 * texCoord;
     uv.x *= resolution.x / resolution.y;

@@ -253,7 +253,7 @@ public class Window : GameWindow
         _program.Use();
         _program.SetUniform1("time", elapsedSeconds);
 
-        const float animationDuration = 12.5f;
+        const float animationDuration = 12.0f;
         if (elapsedSeconds >= animationDuration)
         {
             _stopwatch.Reset();
