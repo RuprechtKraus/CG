@@ -16,7 +16,7 @@ public class Window : GameWindow
 {
     private readonly Vector2 _renderAreaResolution = new Vector2( 16, 9 );
     private readonly float _renderAreaRatio;
-    
+
     private readonly Stopwatch _stopwatch = new Stopwatch();
 
     private readonly float[] _imageVertices =
@@ -38,12 +38,12 @@ public class Window : GameWindow
     private int _vertexArrayObject;
     private int _elementBufferObject;
 
+    private int _projectionLocation;
+
     private ShaderProgram _program = null!;
     private Texture _texture1 = null!;
     private Texture _texture2 = null!;
     private Vector2 _mouse;
-
-    private int _projectionLocation;
 
     public Window( int width, int height, string title )
         : base( GameWindowSettings.Default, new NativeWindowSettings
@@ -65,15 +65,14 @@ public class Window : GameWindow
         InitializeTextures();
         InitializeVertexObjects();
         InitializeElementBuffer();
-        
+
         _program.Use();
 
         _projectionLocation = _program.GetUniformLocation( "projection" );
         _program.SetUniform2( "resolution", _renderAreaResolution );
+        _program.SetUniform1( "time", -1.0f );
 
         _program.Disuse();
-
-        _stopwatch.Start();
     }
 
     private void InitializeShaders()
@@ -181,19 +180,24 @@ public class Window : GameWindow
     {
         base.OnUpdateFrame( args );
 
-        float elapsedSeconds = AdvanceTime();
-
-        const float animationDuration = 12.5f;
-        if ( elapsedSeconds >= animationDuration )
+        if ( _stopwatch.IsRunning )
         {
-            _stopwatch.Reset();
-            SwapTextures( _texture1, _texture2 );
-            _stopwatch.Start();
-        }
+            float elapsedSeconds = AdvanceTime();
 
-        _program.Use();
-        _program.SetUniform2( "mouse", _mouse );
-        _program.Disuse();
+            _program.Use();
+            _program.SetUniform1( "time", elapsedSeconds );
+            
+            const float animationDuration = 12.5f;
+            if ( elapsedSeconds >= animationDuration )
+            {
+                _stopwatch.Reset();
+                SwapTextures( _texture1, _texture2 );
+                _program.SetUniform1( "time", -1.0f );
+            }
+            
+            _program.SetUniform2( "mouse", _mouse );
+            _program.Disuse();
+        }
     }
 
     private float AdvanceTime()
@@ -219,20 +223,25 @@ public class Window : GameWindow
     {
         base.OnMouseDown( e );
 
-        float x = ( MousePosition.X - Size.X / 2.0f ) / Size.X * 2.0f;
-        float y = ( MousePosition.Y - Size.Y / 2.0f ) / Size.Y * 2.0f;
-        float windowRatio = (float) Size.X / Size.Y;
+        if ( !_stopwatch.IsRunning )
+        {
+            _stopwatch.Start();
+            
+            float x = ( MousePosition.X - Size.X / 2.0f ) / Size.X * 2.0f;
+            float y = ( MousePosition.Y - Size.Y / 2.0f ) / Size.Y * 2.0f;
+            float windowRatio = (float) Size.X / Size.Y;
 
-        if ( windowRatio > _renderAreaRatio )
-        {
-            x *= ( windowRatio / _renderAreaRatio );
+            if ( windowRatio > _renderAreaRatio )
+            {
+                x *= ( windowRatio / _renderAreaRatio );
+            }
+            else
+            {
+                y /= ( windowRatio / _renderAreaRatio );
+            }
+
+            _mouse = new Vector2( x, y );
         }
-        else
-        {
-            y /= ( windowRatio / _renderAreaRatio );
-        }
-        
-        _mouse = new Vector2( x, y );
     }
 
     protected override void OnRenderFrame( FrameEventArgs args )
