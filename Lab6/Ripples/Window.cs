@@ -14,7 +14,9 @@ namespace Ripples;
 [SuppressMessage( "Interoperability", "CA1416:Проверка совместимости платформы" )]
 public class Window : GameWindow
 {
-    private readonly Vector2 _resolution = new Vector2( 1920, 1080 );
+    private readonly Vector2 _renderAreaResolution = new Vector2( 16, 9 );
+    private readonly float _renderAreaRatio;
+    
     private readonly Stopwatch _stopwatch = new Stopwatch();
 
     private readonly float[] _imageVertices =
@@ -39,6 +41,7 @@ public class Window : GameWindow
     private ShaderProgram _program = null!;
     private Texture _texture1 = null!;
     private Texture _texture2 = null!;
+    private Vector2 _mouse;
 
     private int _projectionLocation;
 
@@ -49,6 +52,7 @@ public class Window : GameWindow
             Title = title
         } )
     {
+        _renderAreaRatio = _renderAreaResolution.X / _renderAreaResolution.Y;
     }
 
     protected override void OnLoad()
@@ -61,11 +65,11 @@ public class Window : GameWindow
         InitializeTextures();
         InitializeVertexObjects();
         InitializeElementBuffer();
-
+        
         _program.Use();
 
         _projectionLocation = _program.GetUniformLocation( "projection" );
-        _program.SetUniform2( "resolution", _resolution );
+        _program.SetUniform2( "resolution", _renderAreaResolution );
 
         _program.Disuse();
 
@@ -120,7 +124,7 @@ public class Window : GameWindow
 
         void AdjustImageVertices()
         {
-            float imageAspectRatio = _resolution.X / _resolution.Y;
+            float imageAspectRatio = _renderAreaResolution.X / _renderAreaResolution.Y;
 
             if ( imageAspectRatio > 1.0 )
             {
@@ -186,6 +190,10 @@ public class Window : GameWindow
             SwapTextures( _texture1, _texture2 );
             _stopwatch.Start();
         }
+
+        _program.Use();
+        _program.SetUniform2( "mouse", _mouse );
+        _program.Disuse();
     }
 
     private float AdvanceTime()
@@ -207,6 +215,26 @@ public class Window : GameWindow
         _texture2.Use( unit1 );
     }
 
+    protected override void OnMouseDown( MouseButtonEventArgs e )
+    {
+        base.OnMouseDown( e );
+
+        float x = ( MousePosition.X - Size.X / 2.0f ) / Size.X * 2.0f;
+        float y = ( MousePosition.Y - Size.Y / 2.0f ) / Size.Y * 2.0f;
+        float ratio = (float) Size.X / Size.Y;
+
+        if ( ratio > _renderAreaRatio )
+        {
+            x *= ( ratio / _renderAreaRatio );
+        }
+        else
+        {
+            y /= ( ratio / _renderAreaRatio );
+        }
+        
+        _mouse = new Vector2( x, y );
+    }
+
     protected override void OnRenderFrame( FrameEventArgs args )
     {
         base.OnRenderFrame( args );
@@ -226,7 +254,11 @@ public class Window : GameWindow
     {
         GL.Clear( ClearBufferMask.ColorBufferBit );
 
-        GLExtensions.SetupLandscapeProjectionMatrix( _program.Get(), Size.X, Size.Y, _projectionLocation,
+        GLExtensions.SetupLandscapeProjectionMatrix(
+            _program.Get(),
+            Size.X,
+            Size.Y,
+            _projectionLocation,
             16.0f / 9.0f );
 
         _program.Use();
