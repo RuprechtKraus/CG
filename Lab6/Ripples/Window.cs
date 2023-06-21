@@ -221,15 +221,15 @@ public class Window : GameWindow
 
         float x = ( MousePosition.X - Size.X / 2.0f ) / Size.X * 2.0f;
         float y = ( MousePosition.Y - Size.Y / 2.0f ) / Size.Y * 2.0f;
-        float ratio = (float) Size.X / Size.Y;
+        float windowRatio = (float) Size.X / Size.Y;
 
-        if ( ratio > _renderAreaRatio )
+        if ( windowRatio > _renderAreaRatio )
         {
-            x *= ( ratio / _renderAreaRatio );
+            x *= ( windowRatio / _renderAreaRatio );
         }
         else
         {
-            y /= ( ratio / _renderAreaRatio );
+            y /= ( windowRatio / _renderAreaRatio );
         }
         
         _mouse = new Vector2( x, y );

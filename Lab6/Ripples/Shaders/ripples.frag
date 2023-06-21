@@ -19,8 +19,6 @@ void main()
     vec2 um = mouse;
     um.x *= resolution.x / resolution.y;
     
-//    um.x -= ((resolution.x / resolution.y) - (16.0 / 9.0));
-    
     if (distance(uv, um) < 0.1)
     {
         fragColor = vec4( 1.0, 0.0, 1.0, 1.0 );
