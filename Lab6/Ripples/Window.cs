@@ -75,6 +75,49 @@ public class Window : GameWindow
         _program.Disuse();
     }
 
+    protected override void OnUpdateFrame( FrameEventArgs args )
+    {
+        base.OnUpdateFrame( args );
+
+        if ( _stopwatch.IsRunning )
+        {
+            AdvanceAnimation();
+        }
+    }
+    
+    protected override void OnMouseDown( MouseButtonEventArgs e )
+    {
+        base.OnMouseDown( e );
+
+        if ( !_stopwatch.IsRunning )
+        {
+            _stopwatch.Start();
+            UpdateMousePosition();
+        }
+    }
+    
+    protected override void OnRenderFrame( FrameEventArgs args )
+    {
+        base.OnRenderFrame( args );
+
+        DrawFrame();
+    }
+
+    protected override void OnResize( ResizeEventArgs e )
+    {
+        base.OnResize( e );
+
+        GL.Viewport( 0, 0, e.Width, e.Height );
+        DrawFrame();
+    }
+    
+    protected override void OnUnload()
+    {
+        base.OnUnload();
+
+        _program.Dispose();
+    }
+    
     private void InitializeShaders()
     {
         Shader vertexShader = ShaderLoader.LoadShader(
@@ -176,28 +219,23 @@ public class Window : GameWindow
             BufferUsageHint.StaticDraw );
     }
 
-    protected override void OnUpdateFrame( FrameEventArgs args )
+    private void AdvanceAnimation()
     {
-        base.OnUpdateFrame( args );
+        float elapsedSeconds = AdvanceTime();
 
-        if ( _stopwatch.IsRunning )
+        _program.Use();
+        _program.SetUniform1("time", elapsedSeconds);
+
+        const float animationDuration = 12.5f;
+        if (elapsedSeconds >= animationDuration)
         {
-            float elapsedSeconds = AdvanceTime();
-
-            _program.Use();
-            _program.SetUniform1( "time", elapsedSeconds );
-            
-            const float animationDuration = 12.5f;
-            if ( elapsedSeconds >= animationDuration )
-            {
-                _stopwatch.Reset();
-                SwapTextures( _texture1, _texture2 );
-                _program.SetUniform1( "time", -1.0f );
-            }
-            
-            _program.SetUniform2( "mouse", _mouse );
-            _program.Disuse();
+            _stopwatch.Reset();
+            SwapTextures(_texture1, _texture2);
+            _program.SetUniform1("time", -1.0f);
         }
+
+        _program.SetUniform2("mouse", _mouse);
+        _program.Disuse();
     }
 
     private float AdvanceTime()
@@ -218,45 +256,23 @@ public class Window : GameWindow
         _texture1.Use( unit2 );
         _texture2.Use( unit1 );
     }
-
-    protected override void OnMouseDown( MouseButtonEventArgs e )
+    
+    private void UpdateMousePosition()
     {
-        base.OnMouseDown( e );
+        float x = (MousePosition.X - Size.X / 2.0f) / Size.X * 2.0f;
+        float y = (MousePosition.Y - Size.Y / 2.0f) / Size.Y * 2.0f;
+        float windowRatio = (float)Size.X / Size.Y;
 
-        if ( !_stopwatch.IsRunning )
+        if (windowRatio > _renderAreaRatio)
         {
-            _stopwatch.Start();
-            
-            float x = ( MousePosition.X - Size.X / 2.0f ) / Size.X * 2.0f;
-            float y = ( MousePosition.Y - Size.Y / 2.0f ) / Size.Y * 2.0f;
-            float windowRatio = (float) Size.X / Size.Y;
-
-            if ( windowRatio > _renderAreaRatio )
-            {
-                x *= ( windowRatio / _renderAreaRatio );
-            }
-            else
-            {
-                y /= ( windowRatio / _renderAreaRatio );
-            }
-
-            _mouse = new Vector2( x, y );
+            x *= (windowRatio / _renderAreaRatio);
         }
-    }
+        else
+        {
+            y /= (windowRatio / _renderAreaRatio);
+        }
 
-    protected override void OnRenderFrame( FrameEventArgs args )
-    {
-        base.OnRenderFrame( args );
-
-        DrawFrame();
-    }
-
-    protected override void OnResize( ResizeEventArgs e )
-    {
-        base.OnResize( e );
-
-        GL.Viewport( 0, 0, e.Width, e.Height );
-        DrawFrame();
+        _mouse = new Vector2(x, y);
     }
 
     private void DrawFrame()
@@ -284,12 +300,5 @@ public class Window : GameWindow
         _program.Disuse();
 
         SwapBuffers();
-    }
-
-    protected override void OnUnload()
-    {
-        base.OnUnload();
-
-        _program.Dispose();
     }
 }
