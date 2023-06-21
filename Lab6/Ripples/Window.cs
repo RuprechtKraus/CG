@@ -118,6 +118,33 @@ public class Window : GameWindow
         _program.Dispose();
     }
     
+    private void DrawFrame()
+    {
+        GL.Clear( ClearBufferMask.ColorBufferBit );
+
+        GLExtensions.SetupLandscapeProjectionMatrix(
+            _program.Get(),
+            Size.X,
+            Size.Y,
+            _projectionLocation,
+            16.0f / 9.0f );
+
+        _program.Use();
+
+        GL.EnableVertexAttribArray( 0 );
+        GL.EnableVertexAttribArray( 1 );
+
+        GL.BindVertexArray( _vertexArrayObject );
+        GL.DrawElements( PrimitiveType.Triangles, _imageIndices.Length, DrawElementsType.UnsignedInt, 0 );
+
+        GL.DisableVertexAttribArray( 1 );
+        GL.DisableVertexAttribArray( 0 );
+
+        _program.Disuse();
+
+        SwapBuffers();
+    }
+    
     private void InitializeShaders()
     {
         Shader vertexShader = ShaderLoader.LoadShader(
@@ -236,17 +263,17 @@ public class Window : GameWindow
 
         _program.SetUniform2("mouse", _mouse);
         _program.Disuse();
-    }
+        
+        float AdvanceTime()
+        {
+            float seconds = (float) _stopwatch.ElapsedMilliseconds / 1000;
 
-    private float AdvanceTime()
-    {
-        float elapsedSeconds = (float) _stopwatch.ElapsedMilliseconds / 1000;
+            _program.Use();
+            _program.SetUniform1( "time", seconds );
+            _program.Disuse();
 
-        _program.Use();
-        _program.SetUniform1( "time", elapsedSeconds );
-        _program.Disuse();
-
-        return elapsedSeconds;
+            return seconds;
+        }
     }
 
     private void SwapTextures( Texture tex1, Texture tex2 )
@@ -273,32 +300,5 @@ public class Window : GameWindow
         }
 
         _mouse = new Vector2(x, y);
-    }
-
-    private void DrawFrame()
-    {
-        GL.Clear( ClearBufferMask.ColorBufferBit );
-
-        GLExtensions.SetupLandscapeProjectionMatrix(
-            _program.Get(),
-            Size.X,
-            Size.Y,
-            _projectionLocation,
-            16.0f / 9.0f );
-
-        _program.Use();
-
-        GL.EnableVertexAttribArray( 0 );
-        GL.EnableVertexAttribArray( 1 );
-
-        GL.BindVertexArray( _vertexArrayObject );
-        GL.DrawElements( PrimitiveType.Triangles, _imageIndices.Length, DrawElementsType.UnsignedInt, 0 );
-
-        GL.DisableVertexAttribArray( 1 );
-        GL.DisableVertexAttribArray( 0 );
-
-        _program.Disuse();
-
-        SwapBuffers();
     }
 }
