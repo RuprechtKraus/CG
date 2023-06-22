@@ -101,6 +101,8 @@ public class Window : GameWindow
             BufferUsageHint.StaticDraw );
 
         GL.VertexAttribPointer( 0, 3, VertexAttribPointerType.Float, false, 2 * sizeof(float), 0 );
+        
+        GL.EnableVertexAttribArray( 0 );
     }
 
     protected override void OnRenderFrame( FrameEventArgs args )
